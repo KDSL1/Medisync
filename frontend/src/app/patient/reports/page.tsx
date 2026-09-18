@@ -17,16 +17,57 @@ import {
   Filter, 
   Plus, 
   Loader2,
-  FileCode
+  FileCode,
+  ShieldAlert
 } from 'lucide-react';
 
 export default function PatientReportsPage() {
-  const { currentPatient, reports, uploadReport } = useStore();
+  const { currentPatient, reports, uploadReport, activeRole, setActiveRole, isAuthorizedForPatientPortal } = useStore();
 
   const [selectedReport, setSelectedReport] = useState<MedicalReport | null>(null);
   const [activeCategory, setActiveCategory] = useState<string>('ALL');
   const [isUploading, setIsUploading] = useState(false);
   const [showUploadModal, setShowUploadModal] = useState(false);
+
+  // Security Access Guard
+  if (!isAuthorizedForPatientPortal()) {
+    return (
+      <div className="max-w-2xl mx-auto py-20 px-4 text-center">
+        <div className="w-16 h-16 rounded-3xl bg-rose-100 text-rose-600 flex items-center justify-center mx-auto mb-4 border border-rose-200 shadow-lg">
+          <ShieldAlert className="w-8 h-8" />
+        </div>
+        <span className="text-xs font-bold uppercase tracking-wider text-rose-700 bg-rose-50 px-3 py-1 rounded-full border border-rose-200">
+          Security Protocol &bull; Restricted PHI Access
+        </span>
+        <h2 className="text-2xl font-black text-slate-900 mt-3">
+          Document Vault Access Restricted
+        </h2>
+        <p className="text-xs text-slate-600 max-w-md mx-auto mt-2 leading-relaxed">
+          Diagnostic reports and scans are quarantined under patient privacy regulations. Only verified Patients and attending Physicians may inspect these records. Current session: <strong>{activeRole}</strong>.
+        </p>
+        <div className="mt-6 flex flex-wrap justify-center gap-3">
+          <button
+            onClick={() => setActiveRole('PATIENT')}
+            className="px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold shadow-md transition-all"
+          >
+            Switch to Patient View
+          </button>
+          <button
+            onClick={() => setActiveRole('DOCTOR')}
+            className="px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold shadow-md transition-all"
+          >
+            Switch to Doctor View
+          </button>
+          <Link
+            href="/"
+            className="px-5 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold border border-slate-200 transition-all"
+          >
+            Return to Home
+          </Link>
+        </div>
+      </div>
+    );
+  }
 
   // Form State
   const [title, setTitle] = useState('');

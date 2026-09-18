@@ -1,5 +1,14 @@
 export type UserRole = 'PATIENT' | 'RECEPTIONIST' | 'DOCTOR' | 'MANAGEMENT';
 
+export interface AuthUser {
+  id: string;
+  name: string;
+  email: string;
+  role: UserRole;
+  avatar?: string;
+  tenantId?: string;
+}
+
 export interface Tenant {
   id: string;
   name: string;
