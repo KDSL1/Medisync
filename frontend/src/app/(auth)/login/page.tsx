@@ -18,7 +18,9 @@ import {
   CheckCircle2,
   Sparkles,
   KeyRound,
-  UserPlus
+  UserPlus,
+  Layers,
+  Crown
 } from 'lucide-react';
 
 function LoginContent() {
@@ -26,13 +28,14 @@ function LoginContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  // Top Auth Mode: 'signin' | 'register' | 'admin'
-  const [authMode, setAuthMode] = useState<'signin' | 'register' | 'admin'>('signin');
+  // Top Auth Mode: 'signin' | 'register' | 'admin' | 'super-admin'
+  const [authMode, setAuthMode] = useState<'signin' | 'register' | 'admin' | 'super-admin'>('signin');
 
   useEffect(() => {
     const mode = searchParams.get('mode');
     if (mode === 'register') setAuthMode('register');
     else if (mode === 'admin') setAuthMode('admin');
+    else if (mode === 'super-admin') setAuthMode('super-admin');
   }, [searchParams]);
 
   // Sign In State
@@ -47,10 +50,14 @@ function LoginContent() {
   const [regBlood, setRegBlood] = useState('O+');
   const [regAllergy, setRegAllergy] = useState('None');
 
-  // Admin State
+  // Hospital Admin State
   const [adminEmail, setAdminEmail] = useState('admin@metrohealth.example.com');
   const [facilityId, setFacilityId] = useState('METRO-CLINIC-01');
   const [adminKey, setAdminKey] = useState('••••••••••••');
+
+  // Super Admin State
+  const [superAdminEmail, setSuperAdminEmail] = useState('superadmin@medisync360.com');
+  const [superAdminKey, setSuperAdminKey] = useState('••••••••••••');
 
   const roleConfigs = [
     { 
@@ -76,6 +83,22 @@ function LoginContent() {
       icon: ClipboardList, 
       defaultEmail: 'reception@metrohealth.example.com',
       redirect: '/reception'
+    },
+    { 
+      role: 'MANAGEMENT' as UserRole, 
+      label: 'Hospital Admin', 
+      desc: 'Director & staff verification', 
+      icon: Building2, 
+      defaultEmail: 'admin@metrohealth.example.com',
+      redirect: '/management'
+    },
+    { 
+      role: 'SUPER_ADMIN' as UserRole, 
+      label: 'Super Admin', 
+      desc: 'Platform Owner & hospital provisioning', 
+      icon: Crown, 
+      defaultEmail: 'superadmin@medisync360.com',
+      redirect: '/super-admin'
     }
   ];
 
@@ -104,6 +127,12 @@ function LoginContent() {
     router.push('/management');
   };
 
+  const handleSuperAdminSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    login('SUPER_ADMIN', superAdminEmail);
+    router.push('/super-admin');
+  };
+
   const quickLogin = (r: UserRole, targetPath: string, demoEmail: string) => {
     setSelectedRole(r);
     setEmail(demoEmail);
@@ -127,6 +156,7 @@ function LoginContent() {
           {authMode === 'signin' && 'Sign In to Your Workspace'}
           {authMode === 'register' && 'Patient Registration (New Health Locker)'}
           {authMode === 'admin' && 'Hospital Administration Gateway'}
+          {authMode === 'super-admin' && 'Super Admin Gateway (My Login)'}
         </h2>
         <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">
           Strict HIPAA/PHI access control &bull; Multi-tenant healthcare governance
@@ -134,15 +164,15 @@ function LoginContent() {
       </div>
 
       {/* Main Authentication Card */}
-      <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-xl px-4 sm:px-0">
+      <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-2xl px-4 sm:px-0">
         <div className="bg-white dark:bg-slate-900 py-8 px-6 sm:px-10 shadow-xl rounded-3xl border border-slate-200 dark:border-slate-800">
           
           {/* Top Auth Mode Tabs */}
-          <div className="mb-6 p-1 bg-slate-100 dark:bg-slate-800/80 rounded-2xl flex items-center text-xs font-bold">
+          <div className="mb-6 p-1 bg-slate-100 dark:bg-slate-800/80 rounded-2xl grid grid-cols-2 sm:grid-cols-4 gap-1 text-xs font-bold">
             <button
               type="button"
               onClick={() => setAuthMode('signin')}
-              className={`flex-1 py-2.5 rounded-xl transition-all flex items-center justify-center space-x-1.5 cursor-pointer ${
+              className={`py-2.5 rounded-xl transition-all flex items-center justify-center space-x-1.5 cursor-pointer ${
                 authMode === 'signin'
                   ? 'bg-white dark:bg-slate-900 text-slate-900 dark:text-white shadow-xs'
                   : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
@@ -155,7 +185,7 @@ function LoginContent() {
             <button
               type="button"
               onClick={() => setAuthMode('register')}
-              className={`flex-1 py-2.5 rounded-xl transition-all flex items-center justify-center space-x-1.5 cursor-pointer ${
+              className={`py-2.5 rounded-xl transition-all flex items-center justify-center space-x-1.5 cursor-pointer ${
                 authMode === 'register'
                   ? 'bg-white dark:bg-slate-900 text-slate-900 dark:text-white shadow-xs'
                   : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
@@ -168,72 +198,104 @@ function LoginContent() {
             <button
               type="button"
               onClick={() => setAuthMode('admin')}
-              className={`flex-1 py-2.5 rounded-xl transition-all flex items-center justify-center space-x-1.5 cursor-pointer ${
+              className={`py-2.5 rounded-xl transition-all flex items-center justify-center space-x-1.5 cursor-pointer ${
                 authMode === 'admin'
                   ? 'bg-white dark:bg-slate-900 text-slate-900 dark:text-white shadow-xs'
                   : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
               }`}
             >
-              <KeyRound className="w-3.5 h-3.5 text-purple-600 dark:text-purple-400" />
-              <span>Admin Login</span>
+              <Building2 className="w-3.5 h-3.5 text-purple-600 dark:text-purple-400" />
+              <span>Hospital Admin</span>
+            </button>
+
+            <button
+              type="button"
+              onClick={() => setAuthMode('super-admin')}
+              className={`py-2.5 rounded-xl transition-all flex items-center justify-center space-x-1.5 cursor-pointer ${
+                authMode === 'super-admin'
+                  ? 'bg-white dark:bg-slate-900 text-slate-900 dark:text-white shadow-xs'
+                  : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
+              }`}
+            >
+              <Crown className="w-3.5 h-3.5 text-indigo-600 dark:text-indigo-400" />
+              <span>Super Admin</span>
             </button>
           </div>
 
-          {/* Quick Evaluator Demo 1-Click Launchers (Always Available) */}
+          {/* Quick Evaluator Demo 1-Click Launchers (All 5 Roles) */}
           <div className="mb-6 p-4 rounded-2xl bg-brand-50/70 dark:bg-brand-950/30 border border-brand-200 dark:border-brand-900">
             <div className="flex items-center space-x-1.5 text-xs font-bold text-brand-900 dark:text-brand-300 uppercase tracking-wider mb-2">
               <Sparkles className="w-3.5 h-3.5 text-brand-600" />
-              <span>1-Click Evaluator Demo Workspaces:</span>
+              <span>1-Click Evaluator Demo Workspaces (4-Tier Hierarchy):</span>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2 text-xs">
+              
+              {/* Level 1: Super Admin */}
               <button
                 type="button"
-                onClick={() => quickLogin('PATIENT', '/patient', 'rahul.sharma@example.com')}
-                className="p-2.5 rounded-xl bg-white dark:bg-slate-900 border border-brand-200 dark:border-brand-900 text-left hover:bg-brand-50 dark:hover:bg-brand-900/40 transition-colors flex items-center justify-between cursor-pointer"
+                onClick={() => quickLogin('SUPER_ADMIN', '/super-admin', 'superadmin@medisync360.com')}
+                className="p-2.5 rounded-xl bg-white dark:bg-slate-900 border border-indigo-200 dark:border-indigo-900 text-left hover:bg-indigo-50 dark:hover:bg-indigo-900/30 transition-colors flex items-center justify-between cursor-pointer"
               >
                 <div>
-                  <strong className="text-slate-900 dark:text-white block">Rahul Sharma</strong>
-                  <span className="text-[10px] text-emerald-700 dark:text-emerald-400 font-semibold">Patient Health Locker</span>
+                  <strong className="text-slate-900 dark:text-white block">Super Admin</strong>
+                  <span className="text-[10px] text-indigo-700 dark:text-indigo-400 font-semibold">Level 1 &bull; My Login</span>
                 </div>
-                <ArrowRight className="w-3.5 h-3.5 text-brand-600" />
+                <ArrowRight className="w-3.5 h-3.5 text-indigo-600" />
               </button>
 
-              <button
-                type="button"
-                onClick={() => quickLogin('DOCTOR', '/doctor', 'dr.mehta@metrohealth.example.com')}
-                className="p-2.5 rounded-xl bg-white dark:bg-slate-900 border border-brand-200 dark:border-brand-900 text-left hover:bg-brand-50 dark:hover:bg-brand-900/40 transition-colors flex items-center justify-between cursor-pointer"
-              >
-                <div>
-                  <strong className="text-slate-900 dark:text-white block">Dr. Vikram Mehta</strong>
-                  <span className="text-[10px] text-blue-700 dark:text-blue-400 font-semibold">Doctor Clinical Cockpit</span>
-                </div>
-                <ArrowRight className="w-3.5 h-3.5 text-brand-600" />
-              </button>
-
-              <button
-                type="button"
-                onClick={() => quickLogin('RECEPTIONIST', '/reception', 'reception@metrohealth.example.com')}
-                className="p-2.5 rounded-xl bg-white dark:bg-slate-900 border border-brand-200 dark:border-brand-900 text-left hover:bg-brand-50 dark:hover:bg-brand-900/40 transition-colors flex items-center justify-between cursor-pointer"
-              >
-                <div>
-                  <strong className="text-slate-900 dark:text-white block">Front-Desk Triage</strong>
-                  <span className="text-[10px] text-amber-700 dark:text-amber-400 font-semibold">OPD Queue &amp; POS</span>
-                </div>
-                <ArrowRight className="w-3.5 h-3.5 text-brand-600" />
-              </button>
-
+              {/* Level 2: Hospital Admin */}
               <button
                 type="button"
                 onClick={() => quickLogin('MANAGEMENT', '/management', 'admin@metrohealth.example.com')}
-                className="p-2.5 rounded-xl bg-white dark:bg-slate-900 border border-brand-200 dark:border-brand-900 text-left hover:bg-brand-50 dark:hover:bg-brand-900/40 transition-colors flex items-center justify-between cursor-pointer"
+                className="p-2.5 rounded-xl bg-white dark:bg-slate-900 border border-purple-200 dark:border-purple-900 text-left hover:bg-purple-50 dark:hover:bg-purple-900/30 transition-colors flex items-center justify-between cursor-pointer"
               >
                 <div>
                   <strong className="text-slate-900 dark:text-white block">Hospital Director</strong>
-                  <span className="text-[10px] text-purple-700 dark:text-purple-400 font-semibold">Executive BI Portal</span>
+                  <span className="text-[10px] text-purple-700 dark:text-purple-400 font-semibold">Level 2 &bull; Hospital Admin</span>
                 </div>
-                <ArrowRight className="w-3.5 h-3.5 text-brand-600" />
+                <ArrowRight className="w-3.5 h-3.5 text-purple-600" />
               </button>
+
+              {/* Level 3: Doctor */}
+              <button
+                type="button"
+                onClick={() => quickLogin('DOCTOR', '/doctor', 'dr.mehta@metrohealth.example.com')}
+                className="p-2.5 rounded-xl bg-white dark:bg-slate-900 border border-blue-200 dark:border-blue-900 text-left hover:bg-blue-50 dark:hover:bg-blue-900/30 transition-colors flex items-center justify-between cursor-pointer"
+              >
+                <div>
+                  <strong className="text-slate-900 dark:text-white block">Dr. Vikram Mehta</strong>
+                  <span className="text-[10px] text-blue-700 dark:text-blue-400 font-semibold">Level 3 &bull; Physician Cockpit</span>
+                </div>
+                <ArrowRight className="w-3.5 h-3.5 text-blue-600" />
+              </button>
+
+              {/* Level 3: Receptionist */}
+              <button
+                type="button"
+                onClick={() => quickLogin('RECEPTIONIST', '/reception', 'reception@metrohealth.example.com')}
+                className="p-2.5 rounded-xl bg-white dark:bg-slate-900 border border-amber-200 dark:border-amber-900 text-left hover:bg-amber-50 dark:hover:bg-amber-900/30 transition-colors flex items-center justify-between cursor-pointer"
+              >
+                <div>
+                  <strong className="text-slate-900 dark:text-white block">Front Desk Triage</strong>
+                  <span className="text-[10px] text-amber-700 dark:text-amber-400 font-semibold">Level 3 &bull; OPD Queue &amp; POS</span>
+                </div>
+                <ArrowRight className="w-3.5 h-3.5 text-amber-600" />
+              </button>
+
+              {/* Level 4: Patient */}
+              <button
+                type="button"
+                onClick={() => quickLogin('PATIENT', '/patient', 'rahul.sharma@example.com')}
+                className="p-2.5 rounded-xl bg-white dark:bg-slate-900 border border-emerald-200 dark:border-emerald-900 text-left hover:bg-emerald-50 dark:hover:bg-emerald-900/30 transition-colors flex items-center justify-between cursor-pointer sm:col-span-2 lg:col-span-2"
+              >
+                <div>
+                  <strong className="text-slate-900 dark:text-white block">Rahul Sharma (Verified)</strong>
+                  <span className="text-[10px] text-emerald-700 dark:text-emerald-400 font-semibold">Level 4 &bull; Patient Health Locker &amp; AI Explainer</span>
+                </div>
+                <ArrowRight className="w-3.5 h-3.5 text-emerald-600" />
+              </button>
+
             </div>
           </div>
 
@@ -247,7 +309,7 @@ function LoginContent() {
                 <label className="block text-[11px] font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 mb-2">
                   Select Your Role:
                 </label>
-                <div className="grid grid-cols-3 gap-2">
+                <div className="grid grid-cols-2 sm:grid-cols-5 gap-2">
                   {roleConfigs.map((cfg) => {
                     const Icon = cfg.icon;
                     const isSelected = selectedRole === cfg.role;
@@ -263,7 +325,7 @@ function LoginContent() {
                         }`}
                       >
                         <Icon className={`w-5 h-5 mb-1 ${isSelected ? 'text-brand-400 dark:text-brand-600' : 'text-slate-400'}`} />
-                        <span className="text-xs font-bold">{cfg.label}</span>
+                        <span className="text-xs font-bold truncate w-full">{cfg.label}</span>
                       </button>
                     );
                   })}
@@ -403,17 +465,17 @@ function LoginContent() {
           )}
 
           {/* ============================================================ */}
-          {/* FORM 3: ADMIN LOGIN MODE */}
+          {/* FORM 3: HOSPITAL ADMIN LOGIN MODE */}
           {/* ============================================================ */}
           {authMode === 'admin' && (
             <form onSubmit={handleAdminSubmit} className="space-y-3.5 text-xs">
               <div className="p-3 rounded-xl bg-purple-50 dark:bg-purple-950/50 border border-purple-200 dark:border-purple-900 text-purple-800 dark:text-purple-300 text-[11px] flex items-center space-x-2">
-                <KeyRound className="w-4 h-4 text-purple-600 flex-shrink-0" />
-                <span>Restricted Administrative Portal: Hospital footfall analytics, revenue POS metrics, and staff rosters.</span>
+                <Building2 className="w-4 h-4 text-purple-600 flex-shrink-0" />
+                <span>Level 2 Hospital Admin Gateway: Clinical staff privilege verification, OPD analytics, and POS revenue.</span>
               </div>
 
               <div>
-                <label className="block font-bold text-slate-700 dark:text-slate-300 mb-1">Hospital / Clinic Facility ID</label>
+                <label className="block font-bold text-slate-700 dark:text-slate-300 mb-1">Hospital Facility ID</label>
                 <input
                   type="text"
                   required
@@ -435,7 +497,7 @@ function LoginContent() {
               </div>
 
               <div>
-                <label className="block font-bold text-slate-700 dark:text-slate-300 mb-1">Facility Master Key</label>
+                <label className="block font-bold text-slate-700 dark:text-slate-300 mb-1">Facility Access Key</label>
                 <input
                   type="password"
                   required
@@ -450,6 +512,48 @@ function LoginContent() {
                 className="w-full flex items-center justify-center space-x-2 py-3 px-4 rounded-xl bg-purple-600 hover:bg-purple-700 text-white font-bold transition-all shadow-md mt-4 cursor-pointer"
               >
                 <span>Authenticate as Hospital Director</span>
+                <ArrowRight className="w-4 h-4" />
+              </button>
+            </form>
+          )}
+
+          {/* ============================================================ */}
+          {/* FORM 4: SUPER ADMIN LOGIN MODE ("My Login") */}
+          {/* ============================================================ */}
+          {authMode === 'super-admin' && (
+            <form onSubmit={handleSuperAdminSubmit} className="space-y-3.5 text-xs">
+              <div className="p-3 rounded-xl bg-indigo-50 dark:bg-indigo-950/50 border border-indigo-200 dark:border-indigo-900 text-indigo-800 dark:text-indigo-300 text-[11px] flex items-center space-x-2">
+                <Crown className="w-4 h-4 text-indigo-600 flex-shrink-0" />
+                <span>Level 1 Root Authority (&quot;My Login&quot;): Platform Owner portal to provision new hospitals and verify clinical tenants.</span>
+              </div>
+
+              <div>
+                <label className="block font-bold text-slate-700 dark:text-slate-300 mb-1">Super Admin Root Email</label>
+                <input
+                  type="email"
+                  required
+                  value={superAdminEmail}
+                  onChange={(e) => setSuperAdminEmail(e.target.value)}
+                  className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2.5 font-medium text-slate-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-indigo-500"
+                />
+              </div>
+
+              <div>
+                <label className="block font-bold text-slate-700 dark:text-slate-300 mb-1">Master Platform Key</label>
+                <input
+                  type="password"
+                  required
+                  value={superAdminKey}
+                  onChange={(e) => setSuperAdminKey(e.target.value)}
+                  className="w-full bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl px-3 py-2.5 font-medium text-slate-900 dark:text-white focus:outline-none focus:ring-1 focus:ring-indigo-500"
+                />
+              </div>
+
+              <button
+                type="submit"
+                className="w-full flex items-center justify-center space-x-2 py-3 px-4 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold transition-all shadow-md shadow-indigo-500/20 mt-4 cursor-pointer"
+              >
+                <span>Authenticate as Super Admin</span>
                 <ArrowRight className="w-4 h-4" />
               </button>
             </form>

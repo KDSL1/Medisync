@@ -4,6 +4,7 @@ import React from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useStore } from '@/lib/store';
+import VerificationGate from '@/components/VerificationGate';
 import { 
   Stethoscope, 
   Clock, 
@@ -42,7 +43,8 @@ export default function DoctorQueuePage() {
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <VerificationGate requiredRole="DOCTOR">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       
       {/* Doctor Cockpit Header Banner */}
       <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-sm mb-8">
@@ -262,7 +264,7 @@ export default function DoctorQueuePage() {
         )}
 
       </div>
-
     </div>
+    </VerificationGate>
   );
 }

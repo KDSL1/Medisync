@@ -1,4 +1,4 @@
-export type UserRole = 'PATIENT' | 'RECEPTIONIST' | 'DOCTOR' | 'MANAGEMENT';
+export type UserRole = 'SUPER_ADMIN' | 'MANAGEMENT' | 'DOCTOR' | 'RECEPTIONIST' | 'PATIENT';
 
 export interface AuthUser {
   id: string;
@@ -7,6 +7,8 @@ export interface AuthUser {
   role: UserRole;
   avatar?: string;
   tenantId?: string;
+  isVerified: boolean;
+  verificationStatus: 'VERIFIED' | 'PENDING' | 'REJECTED';
 }
 
 export interface Tenant {
@@ -18,6 +20,12 @@ export interface Tenant {
   email: string;
   address: string;
   currency: string;
+  adminEmail: string;
+  adminName?: string;
+  isVerified: boolean;
+  tier: 'ENTERPRISE' | 'REGIONAL' | 'CLINIC';
+  abdmFacilityId?: string;
+  activeSince?: string;
 }
 
 export interface PatientProfile {
@@ -31,11 +39,16 @@ export interface PatientProfile {
   emergencyContact: string;
   knownAllergies: string[];
   chronicConditions: string[];
+  hospitalId?: string;
+  abhaId?: string;
+  isVerified: boolean;
+  verificationStatus: 'VERIFIED' | 'PENDING' | 'REJECTED';
 }
 
 export interface DoctorProfile {
   id: string;
   name: string;
+  email?: string;
   title: string;
   department: string;
   qualification: string;
@@ -43,6 +56,19 @@ export interface DoctorProfile {
   consultationFee: number;
   availableDays: string[];
   dutyStatus: 'ON_DUTY' | 'IN_SESSION' | 'ON_BREAK' | 'OFF_DUTY';
+  hospitalId?: string;
+  isVerified: boolean;
+  verificationStatus: 'VERIFIED' | 'PENDING' | 'REJECTED';
+}
+
+export interface ReceptionistProfile {
+  id: string;
+  name: string;
+  email: string;
+  hospitalId: string;
+  counterNumber: string;
+  isVerified: boolean;
+  verificationStatus: 'VERIFIED' | 'PENDING' | 'REJECTED';
 }
 
 export type AppointmentStatus = 'BOOKED' | 'CHECKED_IN' | 'IN_CONSULTATION' | 'COMPLETED' | 'CANCELLED';

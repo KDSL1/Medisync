@@ -29,27 +29,73 @@
 
 /* Ambient Radial Glows */
 .radial-glow-teal {
-  background: radial-gradient(circle at 50% 10%, rgba(14, 165, 233, 0.12) 0%, transparent 60%);
+  background: radial-gradient(circle at 50% 10%, rgba(14, 165, 233, 0.15) 0%, transparent 60%);
 }
 .dark .radial-glow-teal {
-  background: radial-gradient(circle at 50% 10%, rgba(14, 165, 233, 0.09) 0%, transparent 60%);
+  background: radial-gradient(circle at 50% 10%, rgba(14, 165, 233, 0.1) 0%, transparent 60%);
 }
 
-/* Glassmorphism Card */
+.radial-glow-indigo {
+  background: radial-gradient(circle at 50% 15%, rgba(99, 102, 241, 0.15) 0%, transparent 60%);
+}
+.dark .radial-glow-indigo {
+  background: radial-gradient(circle at 50% 15%, rgba(99, 102, 241, 0.1) 0%, transparent 60%);
+}
+
+.radial-glow-purple {
+  background: radial-gradient(circle at 50% 15%, rgba(168, 85, 247, 0.15) 0%, transparent 60%);
+}
+.dark .radial-glow-purple {
+  background: radial-gradient(circle at 50% 15%, rgba(168, 85, 247, 0.1) 0%, transparent 60%);
+}
+
+/* Glassmorphism Card & Panels */
 .glass-panel {
-  background: rgba(255, 255, 255, 0.75);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(226, 232, 240, 0.8);
+  background: rgba(255, 255, 255, 0.82);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(226, 232, 240, 0.9);
 }
 .dark .glass-panel {
-  background: rgba(15, 23, 42, 0.75);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(30, 41, 59, 0.8);
+  background: rgba(15, 23, 42, 0.82);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(30, 41, 59, 0.9);
 }
 
-/* Custom subtle scrollbar */
+/* Card Hover Lift & Elevation */
+.hover-lift {
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s ease, border-color 0.25s ease;
+}
+.hover-lift:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 16px 32px -12px rgba(15, 23, 42, 0.12);
+}
+.dark .hover-lift:hover {
+  box-shadow: 0 16px 32px -12px rgba(0, 0, 0, 0.4);
+}
+
+/* Shimmer Highlight Effect */
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(200%); }
+}
+.shimmer-box {
+  position: relative;
+  overflow: hidden;
+}
+.shimmer-box::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent);
+  animation: shimmer 3s infinite;
+}
+
+/* Custom subtle clinical scrollbar */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
@@ -74,4 +120,9 @@
 }
 .animate-pulse-slow {
   animation: pulse-slow 4s ease-in-out infinite;
+}
+
+/* Clean Gradient Borders */
+.gradient-border-brand {
+  border-image: linear-gradient(to right, #0ea5e9, #14b8a6) 1;
 }

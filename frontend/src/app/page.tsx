@@ -35,7 +35,8 @@ import {
   ArrowUpRight,
   HelpCircle,
   KeyRound,
-  UserPlus
+  UserPlus,
+  Crown
 } from 'lucide-react';
 
 export default function HomePage() {
@@ -45,7 +46,7 @@ export default function HomePage() {
   const [downloadModal, setDownloadModal] = useState(false);
   const waitingPatients = appointments.filter(a => a.status === 'CHECKED_IN').length;
 
-  const launchPortal = (role: 'PATIENT' | 'RECEPTIONIST' | 'DOCTOR' | 'MANAGEMENT', path: string) => {
+  const launchPortal = (role: 'PATIENT' | 'RECEPTIONIST' | 'DOCTOR' | 'MANAGEMENT' | 'SUPER_ADMIN', path: string) => {
     login(role);
     router.push(path);
   };
@@ -108,10 +109,18 @@ export default function HomePage() {
 
           <Link
             href="/login?mode=admin"
-            className="w-full sm:w-auto flex items-center justify-center space-x-2 py-3 px-6 rounded-xl bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-200 border border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800 font-bold text-xs shadow-xs transition-all cursor-pointer"
+            className="w-full sm:w-auto flex items-center justify-center space-x-2 py-3 px-5 rounded-xl bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-200 border border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800 font-bold text-xs shadow-xs transition-all cursor-pointer"
           >
-            <KeyRound className="w-3.5 h-3.5 text-purple-600" />
-            <span>Admin Portal Login</span>
+            <Building2 className="w-3.5 h-3.5 text-purple-600" />
+            <span>Hospital Admin</span>
+          </Link>
+
+          <Link
+            href="/login?mode=super-admin"
+            className="w-full sm:w-auto flex items-center justify-center space-x-2 py-3 px-5 rounded-xl bg-indigo-50 dark:bg-indigo-950/60 text-indigo-700 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-800 hover:bg-indigo-100 dark:hover:bg-indigo-900/50 font-bold text-xs shadow-xs transition-all cursor-pointer"
+          >
+            <Crown className="w-3.5 h-3.5 text-indigo-600" />
+            <span>Super Admin (My Login)</span>
           </Link>
         </div>
 
@@ -621,7 +630,141 @@ export default function HomePage() {
       </section>
 
       {/* ============================================================ */}
-      {/* SECTION 6: THE 4 PERSONAL WORKSPACES */}
+      {/* SECTION 5.5: THE 4-TIER ONBOARDING & ACCESS HIERARCHY */}
+      {/* ============================================================ */}
+      <section className="py-20 bg-slate-100/60 dark:bg-slate-900/40 border-t border-slate-200 dark:border-slate-800">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          
+          <div className="text-center max-w-3xl mx-auto">
+            <span className="text-xs font-bold uppercase tracking-wider text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-950/60 border border-indigo-200 dark:border-indigo-800 px-3 py-1 rounded-full">
+              Enterprise Access Architecture
+            </span>
+            <h2 className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white mt-3 tracking-tight">
+              The 4-Tier Zero-Trust Governance Hierarchy
+            </h2>
+            <p className="mt-3 text-xs sm:text-sm text-slate-600 dark:text-slate-400 leading-relaxed">
+              Every participant in the MediSync 360 ecosystem is bound by strict chain-of-trust delegation. 
+              Only verified accounts can access clinical workspaces and protected health records (PHI).
+            </p>
+          </div>
+
+          <div className="mt-14 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            
+            {/* Level 1: Super Admin */}
+            <div className="p-6 rounded-3xl bg-white dark:bg-slate-900 border border-indigo-200 dark:border-indigo-900 shadow-sm relative overflow-hidden flex flex-col justify-between group hover:shadow-lg transition-all">
+              <div>
+                <div className="flex items-center justify-between mb-4">
+                  <div className="w-11 h-11 rounded-2xl bg-indigo-50 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-400 flex items-center justify-center border border-indigo-200 dark:border-indigo-800 font-bold">
+                    <Crown className="w-5 h-5" />
+                  </div>
+                  <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded-full bg-indigo-100 dark:bg-indigo-950 text-indigo-800 dark:text-indigo-300">
+                    LEVEL 1
+                  </span>
+                </div>
+                <h3 className="text-base font-bold text-slate-900 dark:text-white">Super Admin</h3>
+                <span className="text-[11px] text-indigo-600 dark:text-indigo-400 font-semibold block mt-0.5">Platform Owner (&quot;My Login&quot;)</span>
+                <p className="mt-2.5 text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
+                  Provisions accounts for new hospital networks, generates ABDM M3 Facility IDs, and manages multi-tenant clinical nodes.
+                </p>
+              </div>
+              <div className="mt-6 pt-3 border-t border-slate-100 dark:border-slate-800 text-[11px] font-bold text-indigo-600 dark:text-indigo-400 flex items-center justify-between">
+                <span>Target: Hospital Accounts</span>
+                <ChevronRight className="w-3.5 h-3.5" />
+              </div>
+            </div>
+
+            {/* Level 2: Hospital Admin */}
+            <div className="p-6 rounded-3xl bg-white dark:bg-slate-900 border border-purple-200 dark:border-purple-900 shadow-sm relative overflow-hidden flex flex-col justify-between group hover:shadow-lg transition-all">
+              <div>
+                <div className="flex items-center justify-between mb-4">
+                  <div className="w-11 h-11 rounded-2xl bg-purple-50 dark:bg-purple-950 text-purple-600 dark:text-purple-400 flex items-center justify-center border border-purple-200 dark:border-purple-800 font-bold">
+                    <Building2 className="w-5 h-5" />
+                  </div>
+                  <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded-full bg-purple-100 dark:bg-purple-950 text-purple-800 dark:text-purple-300">
+                    LEVEL 2
+                  </span>
+                </div>
+                <h3 className="text-base font-bold text-slate-900 dark:text-white">Hospital Admin</h3>
+                <span className="text-[11px] text-purple-600 dark:text-purple-400 font-semibold block mt-0.5">Clinic Director</span>
+                <p className="mt-2.5 text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
+                  Hospital receives account from Super Admin. The Hospital Admin logs in, provisions departments, and grants access to doctors &amp; receptionists.
+                </p>
+              </div>
+              <div className="mt-6 pt-3 border-t border-slate-100 dark:border-slate-800 text-[11px] font-bold text-purple-600 dark:text-purple-400 flex items-center justify-between">
+                <span>Target: Staff &amp; Patients</span>
+                <ChevronRight className="w-3.5 h-3.5" />
+              </div>
+            </div>
+
+            {/* Level 3: Doctors & Receptionists */}
+            <div className="p-6 rounded-3xl bg-white dark:bg-slate-900 border border-blue-200 dark:border-blue-900 shadow-sm relative overflow-hidden flex flex-col justify-between group hover:shadow-lg transition-all">
+              <div>
+                <div className="flex items-center justify-between mb-4">
+                  <div className="w-11 h-11 rounded-2xl bg-blue-50 dark:bg-blue-950 text-blue-600 dark:text-blue-400 flex items-center justify-center border border-blue-200 dark:border-blue-800 font-bold">
+                    <Stethoscope className="w-5 h-5" />
+                  </div>
+                  <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded-full bg-blue-100 dark:bg-blue-950 text-blue-800 dark:text-blue-300">
+                    LEVEL 3
+                  </span>
+                </div>
+                <h3 className="text-base font-bold text-slate-900 dark:text-white">Doctors &amp; Staff</h3>
+                <span className="text-[11px] text-blue-600 dark:text-blue-400 font-semibold block mt-0.5">Clinical Operations</span>
+                <p className="mt-2.5 text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
+                  Physicians and receptionists must be verified by the Hospital Admin before accessing patient queue tokens and SOAP clinical notes.
+                </p>
+              </div>
+              <div className="mt-6 pt-3 border-t border-slate-100 dark:border-slate-800 text-[11px] font-bold text-blue-600 dark:text-blue-400 flex items-center justify-between">
+                <span>Target: OPD &amp; Consultations</span>
+                <ChevronRight className="w-3.5 h-3.5" />
+              </div>
+            </div>
+
+            {/* Level 4: Patients */}
+            <div className="p-6 rounded-3xl bg-white dark:bg-slate-900 border border-emerald-200 dark:border-emerald-900 shadow-sm relative overflow-hidden flex flex-col justify-between group hover:shadow-lg transition-all">
+              <div>
+                <div className="flex items-center justify-between mb-4">
+                  <div className="w-11 h-11 rounded-2xl bg-emerald-50 dark:bg-emerald-950 text-emerald-600 dark:text-emerald-400 flex items-center justify-center border border-emerald-200 dark:border-emerald-800 font-bold">
+                    <User className="w-5 h-5" />
+                  </div>
+                  <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded-full bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300">
+                    LEVEL 4
+                  </span>
+                </div>
+                <h3 className="text-base font-bold text-slate-900 dark:text-white">Verified Patients</h3>
+                <span className="text-[11px] text-emerald-600 dark:text-emerald-400 font-semibold block mt-0.5">Sovereign Health Locker</span>
+                <p className="mt-2.5 text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
+                  Registered by clinic or self-enrolled with ABHA Health ID. Verified patients unlock lifelong chronological timelines and plain-English AI explanations.
+                </p>
+              </div>
+              <div className="mt-6 pt-3 border-t border-slate-100 dark:border-slate-800 text-[11px] font-bold text-emerald-600 dark:text-emerald-400 flex items-center justify-between">
+                <span>Target: Personal Health Records</span>
+                <ChevronRight className="w-3.5 h-3.5" />
+              </div>
+            </div>
+
+          </div>
+
+          {/* Security Gate Callout */}
+          <div className="mt-8 p-4 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-xs flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div className="flex items-center space-x-3">
+              <ShieldCheck className="w-5 h-5 text-emerald-500 flex-shrink-0" />
+              <span className="text-slate-700 dark:text-slate-300">
+                <strong>Zero-Trust Access Barrier:</strong> If any doctor, staff, or patient account is unverified, access to private clinical data is quarantined with a verification barrier.
+              </span>
+            </div>
+            <Link
+              href="/login"
+              className="px-4 py-2 rounded-xl bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-bold text-xs whitespace-nowrap hover:bg-slate-800 dark:hover:bg-slate-100 transition-colors"
+            >
+              Test Role Access &rarr;
+            </Link>
+          </div>
+
+        </div>
+      </section>
+
+      {/* ============================================================ */}
+      {/* SECTION 6: THE 5 PERSONAL WORKSPACES */}
       {/* ============================================================ */}
       <section className="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between mb-8">
@@ -639,104 +782,129 @@ export default function HomePage() {
           </Link>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-5">
           
-          {/* Patient Portal */}
-          <div className="bg-white dark:bg-slate-900 rounded-3xl p-6 border border-slate-200 dark:border-slate-800 hover:border-emerald-300 hover:shadow-xl transition-all flex flex-col justify-between group">
+          {/* Super Admin Portal */}
+          <div className="bg-white dark:bg-slate-900 rounded-3xl p-5 border border-slate-200 dark:border-slate-800 hover:border-indigo-300 hover:shadow-xl transition-all flex flex-col justify-between group">
             <div>
-              <div className="w-10 h-10 rounded-2xl bg-emerald-50 dark:bg-emerald-950 text-emerald-600 dark:text-emerald-400 flex items-center justify-center mb-4 border border-emerald-200 dark:border-emerald-800">
-                <User className="w-5 h-5" />
+              <div className="w-10 h-10 rounded-2xl bg-indigo-50 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-400 flex items-center justify-center mb-3 border border-indigo-200 dark:border-indigo-800">
+                <Crown className="w-5 h-5" />
               </div>
-              <span className="text-[10px] font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/60 px-2.5 py-0.5 rounded-full border border-emerald-200 dark:border-emerald-800">
-                For Patients
+              <span className="text-[10px] font-bold uppercase tracking-wider text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-950/60 px-2 py-0.5 rounded-full border border-indigo-200 dark:border-indigo-800">
+                Level 1 Root
               </span>
-              <h3 className="text-base font-bold text-slate-900 dark:text-white mt-2 group-hover:text-emerald-600 transition-colors">
-                Patient Health Locker
+              <h3 className="text-base font-bold text-slate-900 dark:text-white mt-2 group-hover:text-indigo-600 transition-colors">
+                Super Admin
               </h3>
               <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">
-                Permanent health timeline, AI report explainer, and doctor slot booking.
+                Hospital provisioning, tenant management, and platform governance.
               </p>
             </div>
             <button
-              onClick={() => launchPortal('PATIENT', '/patient')}
-              className="mt-6 w-full py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold shadow-xs transition-colors flex items-center justify-center space-x-1 cursor-pointer"
+              onClick={() => launchPortal('SUPER_ADMIN', '/super-admin')}
+              className="mt-5 w-full py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold shadow-xs transition-colors flex items-center justify-center space-x-1 cursor-pointer"
             >
-              <span>Launch Patient Workspace</span>
-              <ArrowRight className="w-3.5 h-3.5" />
-            </button>
-          </div>
-
-          {/* Receptionist Portal */}
-          <div className="bg-white dark:bg-slate-900 rounded-3xl p-6 border border-slate-200 dark:border-slate-800 hover:border-amber-300 hover:shadow-xl transition-all flex flex-col justify-between group">
-            <div>
-              <div className="w-10 h-10 rounded-2xl bg-amber-50 dark:bg-amber-950 text-amber-600 dark:text-amber-400 flex items-center justify-center mb-4 border border-amber-200 dark:border-amber-800">
-                <ClipboardList className="w-5 h-5" />
-              </div>
-              <span className="text-[10px] font-bold uppercase tracking-wider text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-950/60 px-2.5 py-0.5 rounded-full border border-amber-200 dark:border-amber-800">
-                For Front-Desk
-              </span>
-              <h3 className="text-base font-bold text-slate-900 dark:text-white mt-2 group-hover:text-amber-600 transition-colors">
-                Receptionist Desk
-              </h3>
-              <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">
-                60-second walk-in intake, live OPD queue caller, and printable fee receipts.
-              </p>
-            </div>
-            <button
-              onClick={() => launchPortal('RECEPTIONIST', '/reception')}
-              className="mt-6 w-full py-2.5 rounded-xl bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold shadow-xs transition-colors flex items-center justify-center space-x-1 cursor-pointer"
-            >
-              <span>Launch Reception Workspace</span>
-              <ArrowRight className="w-3.5 h-3.5" />
-            </button>
-          </div>
-
-          {/* Doctor Portal */}
-          <div className="bg-white dark:bg-slate-900 rounded-3xl p-6 border border-slate-200 dark:border-slate-800 hover:border-blue-300 hover:shadow-xl transition-all flex flex-col justify-between group">
-            <div>
-              <div className="w-10 h-10 rounded-2xl bg-blue-50 dark:bg-blue-950 text-blue-600 dark:text-blue-400 flex items-center justify-center mb-4 border border-blue-200 dark:border-blue-800">
-                <Stethoscope className="w-5 h-5" />
-              </div>
-              <span className="text-[10px] font-bold uppercase tracking-wider text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-950/60 px-2.5 py-0.5 rounded-full border border-blue-200 dark:border-blue-800">
-                For Physicians
-              </span>
-              <h3 className="text-base font-bold text-slate-900 dark:text-white mt-2 group-hover:text-blue-600 transition-colors">
-                Doctor Cockpit
-              </h3>
-              <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">
-                Live queue caller, patient dossier, SOAP clinical notes, and digital prescription writer.
-              </p>
-            </div>
-            <button
-              onClick={() => launchPortal('DOCTOR', '/doctor')}
-              className="mt-6 w-full py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold shadow-xs transition-colors flex items-center justify-center space-x-1 cursor-pointer"
-            >
-              <span>Launch Doctor Workspace</span>
+              <span>Launch Super Admin</span>
               <ArrowRight className="w-3.5 h-3.5" />
             </button>
           </div>
 
           {/* Management Portal */}
-          <div className="bg-white dark:bg-slate-900 rounded-3xl p-6 border border-slate-200 dark:border-slate-800 hover:border-purple-300 hover:shadow-xl transition-all flex flex-col justify-between group">
+          <div className="bg-white dark:bg-slate-900 rounded-3xl p-5 border border-slate-200 dark:border-slate-800 hover:border-purple-300 hover:shadow-xl transition-all flex flex-col justify-between group">
             <div>
-              <div className="w-10 h-10 rounded-2xl bg-purple-50 dark:bg-purple-950 text-purple-600 dark:text-purple-400 flex items-center justify-center mb-4 border border-purple-200 dark:border-purple-800">
+              <div className="w-10 h-10 rounded-2xl bg-purple-50 dark:bg-purple-950 text-purple-600 dark:text-purple-400 flex items-center justify-center mb-3 border border-purple-200 dark:border-purple-800">
                 <Building2 className="w-5 h-5" />
               </div>
-              <span className="text-[10px] font-bold uppercase tracking-wider text-purple-600 dark:text-purple-400 bg-purple-50 dark:bg-purple-950/60 px-2.5 py-0.5 rounded-full border border-purple-200 dark:border-purple-800">
-                For Directors
+              <span className="text-[10px] font-bold uppercase tracking-wider text-purple-600 dark:text-purple-400 bg-purple-50 dark:bg-purple-950/60 px-2 py-0.5 rounded-full border border-purple-200 dark:border-purple-800">
+                Level 2 Director
               </span>
               <h3 className="text-base font-bold text-slate-900 dark:text-white mt-2 group-hover:text-purple-600 transition-colors">
-                Management BI
+                Hospital Admin
               </h3>
               <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">
-                Hospital footfall trends, revenue tracking, and doctor duty rosters.
+                Staff &amp; patient verification desk, department wings, and revenue POS.
               </p>
             </div>
             <button
               onClick={() => launchPortal('MANAGEMENT', '/management')}
-              className="mt-6 w-full py-2.5 rounded-xl bg-purple-600 hover:bg-purple-700 text-white text-xs font-bold shadow-xs transition-colors flex items-center justify-center space-x-1 cursor-pointer"
+              className="mt-5 w-full py-2.5 rounded-xl bg-purple-600 hover:bg-purple-700 text-white text-xs font-bold shadow-xs transition-colors flex items-center justify-center space-x-1 cursor-pointer"
             >
-              <span>Launch Admin Workspace</span>
+              <span>Launch Admin Desk</span>
+              <ArrowRight className="w-3.5 h-3.5" />
+            </button>
+          </div>
+
+          {/* Doctor Portal */}
+          <div className="bg-white dark:bg-slate-900 rounded-3xl p-5 border border-slate-200 dark:border-slate-800 hover:border-blue-300 hover:shadow-xl transition-all flex flex-col justify-between group">
+            <div>
+              <div className="w-10 h-10 rounded-2xl bg-blue-50 dark:bg-blue-950 text-blue-600 dark:text-blue-400 flex items-center justify-center mb-3 border border-blue-200 dark:border-blue-800">
+                <Stethoscope className="w-5 h-5" />
+              </div>
+              <span className="text-[10px] font-bold uppercase tracking-wider text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-950/60 px-2 py-0.5 rounded-full border border-blue-200 dark:border-blue-800">
+                Level 3 Physician
+              </span>
+              <h3 className="text-base font-bold text-slate-900 dark:text-white mt-2 group-hover:text-blue-600 transition-colors">
+                Doctor Cockpit
+              </h3>
+              <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">
+                Live queue caller, patient dossier, SOAP notes, and prescription writer.
+              </p>
+            </div>
+            <button
+              onClick={() => launchPortal('DOCTOR', '/doctor')}
+              className="mt-5 w-full py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold shadow-xs transition-colors flex items-center justify-center space-x-1 cursor-pointer"
+            >
+              <span>Launch Doctor Cockpit</span>
+              <ArrowRight className="w-3.5 h-3.5" />
+            </button>
+          </div>
+
+          {/* Receptionist Portal */}
+          <div className="bg-white dark:bg-slate-900 rounded-3xl p-5 border border-slate-200 dark:border-slate-800 hover:border-amber-300 hover:shadow-xl transition-all flex flex-col justify-between group">
+            <div>
+              <div className="w-10 h-10 rounded-2xl bg-amber-50 dark:bg-amber-950 text-amber-600 dark:text-amber-400 flex items-center justify-center mb-3 border border-amber-200 dark:border-amber-800">
+                <ClipboardList className="w-5 h-5" />
+              </div>
+              <span className="text-[10px] font-bold uppercase tracking-wider text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-950/60 px-2 py-0.5 rounded-full border border-amber-200 dark:border-amber-800">
+                Level 3 Front Desk
+              </span>
+              <h3 className="text-base font-bold text-slate-900 dark:text-white mt-2 group-hover:text-amber-600 transition-colors">
+                Reception Desk
+              </h3>
+              <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">
+                60-second walk-in intake, live OPD queue tokens, and fee receipts.
+              </p>
+            </div>
+            <button
+              onClick={() => launchPortal('RECEPTIONIST', '/reception')}
+              className="mt-5 w-full py-2.5 rounded-xl bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold shadow-xs transition-colors flex items-center justify-center space-x-1 cursor-pointer"
+            >
+              <span>Launch Reception</span>
+              <ArrowRight className="w-3.5 h-3.5" />
+            </button>
+          </div>
+
+          {/* Patient Portal */}
+          <div className="bg-white dark:bg-slate-900 rounded-3xl p-5 border border-slate-200 dark:border-slate-800 hover:border-emerald-300 hover:shadow-xl transition-all flex flex-col justify-between group">
+            <div>
+              <div className="w-10 h-10 rounded-2xl bg-emerald-50 dark:bg-emerald-950 text-emerald-600 dark:text-emerald-400 flex items-center justify-center mb-3 border border-emerald-200 dark:border-emerald-800">
+                <User className="w-5 h-5" />
+              </div>
+              <span className="text-[10px] font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/60 px-2 py-0.5 rounded-full border border-emerald-200 dark:border-emerald-800">
+                Level 4 Sovereign
+              </span>
+              <h3 className="text-base font-bold text-slate-900 dark:text-white mt-2 group-hover:text-emerald-600 transition-colors">
+                Patient Locker
+              </h3>
+              <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">
+                Permanent health timeline, AI report explainer, and slot booking.
+              </p>
+            </div>
+            <button
+              onClick={() => launchPortal('PATIENT', '/patient')}
+              className="mt-5 w-full py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold shadow-xs transition-colors flex items-center justify-center space-x-1 cursor-pointer"
+            >
+              <span>Launch Patient Locker</span>
               <ArrowRight className="w-3.5 h-3.5" />
             </button>
           </div>
@@ -781,11 +949,12 @@ export default function HomePage() {
             <span>&bull; Clinical Operating System</span>
           </div>
 
-          <div className="flex items-center space-x-6 text-slate-400">
-            <Link href="/patient" className="hover:text-white">Patient Workspace</Link>
-            <Link href="/doctor" className="hover:text-white">Doctor Workspace</Link>
-            <Link href="/reception" className="hover:text-white">Reception Workspace</Link>
-            <Link href="/management" className="hover:text-white">Admin Workspace</Link>
+          <div className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-slate-400">
+            <Link href="/super-admin" className="text-indigo-400 hover:text-indigo-300 font-semibold">Super Admin</Link>
+            <Link href="/management" className="hover:text-white">Hospital Admin</Link>
+            <Link href="/doctor" className="hover:text-white">Doctor Cockpit</Link>
+            <Link href="/reception" className="hover:text-white">Reception Desk</Link>
+            <Link href="/patient" className="hover:text-white">Patient Locker</Link>
             <Link href="/login" className="text-teal-400 hover:text-teal-300 font-bold">Sign In</Link>
           </div>
 

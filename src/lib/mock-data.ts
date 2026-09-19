@@ -2,6 +2,7 @@ import {
   Tenant, 
   DoctorProfile, 
   PatientProfile, 
+  ReceptionistProfile,
   Appointment, 
   VisitEncounter, 
   MedicalReport 
@@ -17,6 +18,12 @@ export const INITIAL_TENANTS: Tenant[] = [
     email: 'frontdesk@metrohealth.example.com',
     address: '742 Healthcare Parkway, Suite 300',
     currency: '$',
+    adminEmail: 'admin@metrohealth.example.com',
+    adminName: 'Dr. Aris Thorne (CEO)',
+    isVerified: true,
+    tier: 'ENTERPRISE',
+    abdmFacilityId: 'IN-MH-74291',
+    activeSince: '2024-01-15',
   },
   {
     id: 'tenant-apex',
@@ -27,6 +34,12 @@ export const INITIAL_TENANTS: Tenant[] = [
     email: 'care@apexcardio.example.com',
     address: '120 Innovation Boulevard, Medical District',
     currency: '$',
+    adminEmail: 'director@apexcardio.example.com',
+    adminName: 'Dr. Sarah Jenkins',
+    isVerified: true,
+    tier: 'REGIONAL',
+    abdmFacilityId: 'IN-AC-10294',
+    activeSince: '2024-06-20',
   }
 ];
 
@@ -34,6 +47,7 @@ export const INITIAL_DOCTORS: DoctorProfile[] = [
   {
     id: 'doc-1',
     name: 'Dr. Vikram Mehta',
+    email: 'dr.mehta@metrohealth.example.com',
     title: 'Senior Consultant Cardiologist',
     department: 'Cardiology',
     qualification: 'MD, DM (Cardiology), FACC',
@@ -41,10 +55,14 @@ export const INITIAL_DOCTORS: DoctorProfile[] = [
     consultationFee: 65,
     availableDays: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'],
     dutyStatus: 'IN_SESSION',
+    hospitalId: 'tenant-metro',
+    isVerified: true,
+    verificationStatus: 'VERIFIED',
   },
   {
     id: 'doc-2',
     name: 'Dr. Elena Rostova',
+    email: 'dr.rostova@metrohealth.example.com',
     title: 'Consultant Pulmonologist',
     department: 'Pulmonology',
     qualification: 'MD (Respiratory Medicine), FCCP',
@@ -52,10 +70,14 @@ export const INITIAL_DOCTORS: DoctorProfile[] = [
     consultationFee: 55,
     availableDays: ['Monday', 'Wednesday', 'Friday', 'Saturday'],
     dutyStatus: 'ON_DUTY',
+    hospitalId: 'tenant-metro',
+    isVerified: true,
+    verificationStatus: 'VERIFIED',
   },
   {
     id: 'doc-3',
     name: 'Dr. Ananya Iyer',
+    email: 'dr.iyer@metrohealth.example.com',
     title: 'Specialist Pediatrician',
     department: 'Pediatrics',
     qualification: 'MBBS, DCH, DNB (Pediatrics)',
@@ -63,10 +85,14 @@ export const INITIAL_DOCTORS: DoctorProfile[] = [
     consultationFee: 45,
     availableDays: ['Tuesday', 'Thursday', 'Saturday'],
     dutyStatus: 'ON_DUTY',
+    hospitalId: 'tenant-metro',
+    isVerified: true,
+    verificationStatus: 'VERIFIED',
   },
   {
     id: 'doc-4',
     name: 'Dr. Marcus Chen',
+    email: 'dr.chen@metrohealth.example.com',
     title: 'Orthopedic & Joint Surgeon',
     department: 'Orthopedics',
     qualification: 'MS (Orthopedics), MCh',
@@ -74,7 +100,31 @@ export const INITIAL_DOCTORS: DoctorProfile[] = [
     consultationFee: 75,
     availableDays: ['Monday', 'Tuesday', 'Thursday', 'Friday'],
     dutyStatus: 'ON_BREAK',
+    hospitalId: 'tenant-metro',
+    isVerified: false,
+    verificationStatus: 'PENDING',
   },
+];
+
+export const INITIAL_RECEPTIONISTS: ReceptionistProfile[] = [
+  {
+    id: 'rec-01',
+    name: 'Front Desk Reception',
+    email: 'reception@metrohealth.example.com',
+    hospitalId: 'tenant-metro',
+    counterNumber: 'Desk 1 (Central Triage)',
+    isVerified: true,
+    verificationStatus: 'VERIFIED',
+  },
+  {
+    id: 'rec-02',
+    name: 'Kavita Roy (OPD Counter)',
+    email: 'kavita.roy@metrohealth.example.com',
+    hospitalId: 'tenant-metro',
+    counterNumber: 'Desk 2 (Express Intake)',
+    isVerified: true,
+    verificationStatus: 'VERIFIED',
+  }
 ];
 
 export const INITIAL_PATIENTS: PatientProfile[] = [
@@ -89,6 +139,10 @@ export const INITIAL_PATIENTS: PatientProfile[] = [
     emergencyContact: 'Sunita Sharma (Spouse) - +1 (555) 839-2042',
     knownAllergies: ['Penicillin', 'Sulfa Drugs'],
     chronicConditions: ['Type 2 Diabetes Mellitus', 'Mild Hypertension'],
+    hospitalId: 'tenant-metro',
+    abhaId: '91-4829-1029-4820',
+    isVerified: true,
+    verificationStatus: 'VERIFIED',
   },
   {
     id: 'pat-2',
@@ -101,6 +155,10 @@ export const INITIAL_PATIENTS: PatientProfile[] = [
     emergencyContact: 'Mark Watson (Brother) - +1 (555) 492-9900',
     knownAllergies: ['Latex'],
     chronicConditions: ['Asthma (Mild Persistent)'],
+    hospitalId: 'tenant-metro',
+    abhaId: '91-8812-3901-7721',
+    isVerified: false,
+    verificationStatus: 'PENDING',
   },
   {
     id: 'pat-3',
@@ -113,6 +171,10 @@ export const INITIAL_PATIENTS: PatientProfile[] = [
     emergencyContact: 'Karan Patel - +1 (555) 301-8899',
     knownAllergies: [],
     chronicConditions: [],
+    hospitalId: 'tenant-metro',
+    abhaId: '91-3141-5926-5358',
+    isVerified: true,
+    verificationStatus: 'VERIFIED',
   }
 ];
 

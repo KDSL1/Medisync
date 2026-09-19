@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { useStore } from '@/lib/store';
+import VerificationGate from '@/components/VerificationGate';
 import { 
   Calendar, 
   Clock, 
@@ -90,7 +91,8 @@ export default function PatientPortalPage() {
   );
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <VerificationGate requiredRole="PATIENT">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       
       {/* Patient Profile Header Banner */}
       <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-sm mb-8">
@@ -446,6 +448,7 @@ export default function PatientPortalPage() {
         onClose={() => setSelectedReport(null)}
       />
 
-    </div>
+      </div>
+    </VerificationGate>
   );
 }

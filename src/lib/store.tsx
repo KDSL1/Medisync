@@ -6,6 +6,7 @@ import {
   Tenant, 
   DoctorProfile, 
   PatientProfile, 
+  ReceptionistProfile,
   Appointment, 
   VisitEncounter, 
   MedicalReport,
@@ -15,6 +16,7 @@ import {
   INITIAL_TENANTS, 
   INITIAL_DOCTORS, 
   INITIAL_PATIENTS, 
+  INITIAL_RECEPTIONISTS,
   INITIAL_APPOINTMENTS, 
   INITIAL_VISIT_ENCOUNTERS, 
   INITIAL_REPORTS 
@@ -25,7 +27,7 @@ interface StoreContextType {
   setActiveRole: (role: UserRole) => void;
   currentUser: AuthUser | null;
   isAuthenticated: boolean;
-  login: (role: UserRole, email?: string) => void;
+  login: (role: UserRole, email?: string, isVerified?: boolean) => void;
   logout: () => void;
   isAuthorizedForPatientPortal: () => boolean;
 
@@ -38,10 +40,22 @@ interface StoreContextType {
   setCurrentDoctor: (doctor: DoctorProfile) => void;
   doctors: DoctorProfile[];
   patients: PatientProfile[];
+  receptionists: ReceptionistProfile[];
   appointments: Appointment[];
   visits: VisitEncounter[];
   reports: MedicalReport[];
   
+  // Hierarchy Provisioning & Verification Actions
+  provisionHospital: (tenantData: Omit<Tenant, 'id'>) => Tenant;
+  verifyHospital: (tenantId: string, isVerified: boolean) => void;
+  provisionDoctor: (doctorData: Omit<DoctorProfile, 'id'>) => DoctorProfile;
+  verifyDoctor: (doctorId: string, isVerified: boolean) => void;
+  provisionReceptionist: (receptionistData: Omit<ReceptionistProfile, 'id'>) => ReceptionistProfile;
+  verifyReceptionist: (receptionistId: string, isVerified: boolean) => void;
+  verifyPatient: (patientId: string, isVerified: boolean) => void;
+  verifyCurrentUser: () => void;
+  toggleCurrentUserVerification: () => void;
+
   // Operational Actions
   bookAppointment: (patientId: string, doctorId: string, date: string, timeSlot: string, reason: string) => Appointment;
   checkInAppointment: (appointmentId: string) => Appointment | null;
@@ -49,7 +63,7 @@ interface StoreContextType {
   completeConsultation: (appointmentId: string, visitData: Omit<VisitEncounter, 'id' | 'appointmentId'>) => void;
   cancelAppointment: (appointmentId: string) => void;
   registerWalkIn: (
-    patientData: Omit<PatientProfile, 'id'>, 
+    patientData: Omit<PatientProfile, 'id' | 'isVerified' | 'verificationStatus'>, 
     doctorId: string, 
     reason: string
   ) => { patient: PatientProfile; appointment: Appointment };
@@ -63,11 +77,13 @@ const STORAGE_KEYS = {
   ROLE: 'medisync_active_role',
   USER: 'medisync_current_user',
   TENANT: 'medisync_active_tenant',
+  TENANTS_LIST: 'medisync_tenants_list',
   APPOINTMENTS: 'medisync_appointments',
   VISITS: 'medisync_visits',
   REPORTS: 'medisync_reports',
   PATIENTS: 'medisync_patients',
   DOCTORS: 'medisync_doctors',
+  RECEPTIONISTS: 'medisync_receptionists',
 };
 
 export function StoreProvider({ children }: { children: React.ReactNode }) {
@@ -76,14 +92,18 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
     id: INITIAL_PATIENTS[0].id,
     name: INITIAL_PATIENTS[0].name,
     email: INITIAL_PATIENTS[0].email,
-    role: 'PATIENT'
+    role: 'PATIENT',
+    isVerified: true,
+    verificationStatus: 'VERIFIED',
+    tenantId: INITIAL_PATIENTS[0].hospitalId || INITIAL_TENANTS[0].id
   });
   const [isAuthenticated, setIsAuthenticated] = useState(true);
 
   const [activeTenant, setActiveTenantState] = useState<Tenant>(INITIAL_TENANTS[0]);
-  const [tenants] = useState<Tenant[]>(INITIAL_TENANTS);
+  const [tenants, setTenants] = useState<Tenant[]>(INITIAL_TENANTS);
   const [patients, setPatients] = useState<PatientProfile[]>(INITIAL_PATIENTS);
   const [doctors, setDoctors] = useState<DoctorProfile[]>(INITIAL_DOCTORS);
+  const [receptionists, setReceptionists] = useState<ReceptionistProfile[]>(INITIAL_RECEPTIONISTS);
   const [appointments, setAppointments] = useState<Appointment[]>(INITIAL_APPOINTMENTS);
   const [visits, setVisits] = useState<VisitEncounter[]>(INITIAL_VISIT_ENCOUNTERS);
   const [reports, setReports] = useState<MedicalReport[]>(INITIAL_REPORTS);
@@ -105,6 +125,9 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
       const savedTenant = localStorage.getItem(STORAGE_KEYS.TENANT);
       if (savedTenant) setActiveTenantState(JSON.parse(savedTenant));
 
+      const savedTenantsList = localStorage.getItem(STORAGE_KEYS.TENANTS_LIST);
+      if (savedTenantsList) setTenants(JSON.parse(savedTenantsList));
+
       const savedApts = localStorage.getItem(STORAGE_KEYS.APPOINTMENTS);
       if (savedApts) setAppointments(JSON.parse(savedApts));
 
@@ -116,6 +139,12 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
 
       const savedPatients = localStorage.getItem(STORAGE_KEYS.PATIENTS);
       if (savedPatients) setPatients(JSON.parse(savedPatients));
+
+      const savedDoctors = localStorage.getItem(STORAGE_KEYS.DOCTORS);
+      if (savedDoctors) setDoctors(JSON.parse(savedDoctors));
+
+      const savedReceptionists = localStorage.getItem(STORAGE_KEYS.RECEPTIONISTS);
+      if (savedReceptionists) setReceptionists(JSON.parse(savedReceptionists));
     } catch (e) {
       console.warn('Could not read from localStorage', e);
     }
@@ -129,20 +158,72 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
     // Auto-update currentUser according to role for smooth demonstration
     let userObj: AuthUser;
     if (role === 'PATIENT') {
-      userObj = { id: currentPatient.id, name: currentPatient.name, email: currentPatient.email, role: 'PATIENT' };
+      userObj = { 
+        id: currentPatient.id, 
+        name: currentPatient.name, 
+        email: currentPatient.email, 
+        role: 'PATIENT',
+        isVerified: currentPatient.isVerified,
+        verificationStatus: currentPatient.verificationStatus,
+        tenantId: currentPatient.hospitalId || activeTenant.id
+      };
     } else if (role === 'DOCTOR') {
-      userObj = { id: currentDoctor.id, name: currentDoctor.name, email: 'dr.mehta@metrohealth.example.com', role: 'DOCTOR' };
+      userObj = { 
+        id: currentDoctor.id, 
+        name: currentDoctor.name, 
+        email: currentDoctor.email || 'dr.mehta@metrohealth.example.com', 
+        role: 'DOCTOR',
+        isVerified: currentDoctor.isVerified,
+        verificationStatus: currentDoctor.verificationStatus,
+        tenantId: currentDoctor.hospitalId || activeTenant.id
+      };
     } else if (role === 'RECEPTIONIST') {
-      userObj = { id: 'rec-01', name: 'Front Desk Reception', email: 'reception@metrohealth.example.com', role: 'RECEPTIONIST' };
+      userObj = { 
+        id: 'rec-01', 
+        name: 'Front Desk Reception', 
+        email: 'reception@metrohealth.example.com', 
+        role: 'RECEPTIONIST',
+        isVerified: true,
+        verificationStatus: 'VERIFIED',
+        tenantId: activeTenant.id
+      };
+    } else if (role === 'MANAGEMENT') {
+      userObj = { 
+        id: 'admin-01', 
+        name: activeTenant.adminName || 'Dr. Aris Thorne (CEO)', 
+        email: activeTenant.adminEmail, 
+        role: 'MANAGEMENT',
+        isVerified: activeTenant.isVerified,
+        verificationStatus: activeTenant.isVerified ? 'VERIFIED' : 'PENDING',
+        tenantId: activeTenant.id
+      };
     } else {
-      userObj = { id: 'admin-01', name: 'Dr. Aris Thorne (CEO)', email: 'admin@metrohealth.example.com', role: 'MANAGEMENT' };
+      userObj = { 
+        id: 'super-admin-root', 
+        name: 'Super Admin (Platform Owner)', 
+        email: 'superadmin@medisync360.com', 
+        role: 'SUPER_ADMIN',
+        isVerified: true,
+        verificationStatus: 'VERIFIED'
+      };
     }
     setCurrentUser(userObj);
     if (typeof window !== 'undefined') localStorage.setItem(STORAGE_KEYS.USER, JSON.stringify(userObj));
   };
 
-  const login = (role: UserRole, email?: string) => {
+  const login = (role: UserRole, email?: string, isVerified?: boolean) => {
     setActiveRole(role);
+    if (isVerified !== undefined && currentUser) {
+      const updatedUser: AuthUser = {
+        ...currentUser,
+        role,
+        email: email || currentUser.email,
+        isVerified,
+        verificationStatus: isVerified ? 'VERIFIED' : 'PENDING'
+      };
+      setCurrentUser(updatedUser);
+      if (typeof window !== 'undefined') localStorage.setItem(STORAGE_KEYS.USER, JSON.stringify(updatedUser));
+    }
     setIsAuthenticated(true);
   };
 
@@ -156,12 +237,17 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
 
   // Critical Security Rule: ONLY Patient and Doctor are authorized to access Patient PHI/Portal!
   const isAuthorizedForPatientPortal = (): boolean => {
-    return activeRole === 'PATIENT' || activeRole === 'DOCTOR';
+    return activeRole === 'PATIENT' || activeRole === 'DOCTOR' || activeRole === 'SUPER_ADMIN';
   };
 
   const setActiveTenant = (tenant: Tenant) => {
     setActiveTenantState(tenant);
     if (typeof window !== 'undefined') localStorage.setItem(STORAGE_KEYS.TENANT, JSON.stringify(tenant));
+  };
+
+  const saveTenants = (tList: Tenant[]) => {
+    setTenants(tList);
+    if (typeof window !== 'undefined') localStorage.setItem(STORAGE_KEYS.TENANTS_LIST, JSON.stringify(tList));
   };
 
   const saveAppointments = (apts: Appointment[]) => {
@@ -182,6 +268,137 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
   const savePatients = (p: PatientProfile[]) => {
     setPatients(p);
     if (typeof window !== 'undefined') localStorage.setItem(STORAGE_KEYS.PATIENTS, JSON.stringify(p));
+  };
+
+  const saveDoctors = (d: DoctorProfile[]) => {
+    setDoctors(d);
+    if (typeof window !== 'undefined') localStorage.setItem(STORAGE_KEYS.DOCTORS, JSON.stringify(d));
+  };
+
+  const saveReceptionists = (r: ReceptionistProfile[]) => {
+    setReceptionists(r);
+    if (typeof window !== 'undefined') localStorage.setItem(STORAGE_KEYS.RECEPTIONISTS, JSON.stringify(r));
+  };
+
+  // ----------------------------------------------------
+  // Level 1: Super Admin Provisioning & Verification
+  // ----------------------------------------------------
+  const provisionHospital = (tenantData: Omit<Tenant, 'id'>): Tenant => {
+    const newTenant: Tenant = {
+      ...tenantData,
+      id: `tenant-${Date.now()}`,
+      activeSince: new Date().toISOString().split('T')[0],
+    };
+    const updated = [newTenant, ...tenants];
+    saveTenants(updated);
+    return newTenant;
+  };
+
+  const verifyHospital = (tenantId: string, isVerified: boolean) => {
+    const updated = tenants.map(t => 
+      t.id === tenantId ? { ...t, isVerified } : t
+    );
+    saveTenants(updated);
+    if (activeTenant.id === tenantId) {
+      setActiveTenantState({ ...activeTenant, isVerified });
+    }
+  };
+
+  // ----------------------------------------------------
+  // Level 2: Hospital Admin Staff & Patient Verification
+  // ----------------------------------------------------
+  const provisionDoctor = (doctorData: Omit<DoctorProfile, 'id'>): DoctorProfile => {
+    const newDoc: DoctorProfile = {
+      ...doctorData,
+      id: `doc-${Date.now()}`,
+    };
+    const updated = [newDoc, ...doctors];
+    saveDoctors(updated);
+    return newDoc;
+  };
+
+  const verifyDoctor = (doctorId: string, isVerified: boolean) => {
+    const updated = doctors.map(d => 
+      d.id === doctorId 
+        ? { ...d, isVerified, verificationStatus: isVerified ? ('VERIFIED' as const) : ('PENDING' as const) } 
+        : d
+    );
+    saveDoctors(updated);
+    if (currentDoctor.id === doctorId) {
+      setCurrentDoctor({ 
+        ...currentDoctor, 
+        isVerified, 
+        verificationStatus: isVerified ? 'VERIFIED' : 'PENDING' 
+      });
+    }
+  };
+
+  const provisionReceptionist = (receptionistData: Omit<ReceptionistProfile, 'id'>): ReceptionistProfile => {
+    const newRec: ReceptionistProfile = {
+      ...receptionistData,
+      id: `rec-${Date.now()}`,
+    };
+    const updated = [newRec, ...receptionists];
+    saveReceptionists(updated);
+    return newRec;
+  };
+
+  const verifyReceptionist = (receptionistId: string, isVerified: boolean) => {
+    const updated = receptionists.map(r => 
+      r.id === receptionistId 
+        ? { ...r, isVerified, verificationStatus: isVerified ? ('VERIFIED' as const) : ('PENDING' as const) } 
+        : r
+    );
+    saveReceptionists(updated);
+  };
+
+  const verifyPatient = (patientId: string, isVerified: boolean) => {
+    const updated = patients.map(p => 
+      p.id === patientId 
+        ? { ...p, isVerified, verificationStatus: isVerified ? ('VERIFIED' as const) : ('PENDING' as const) } 
+        : p
+    );
+    savePatients(updated);
+    if (currentPatient.id === patientId) {
+      setCurrentPatient({ 
+        ...currentPatient, 
+        isVerified, 
+        verificationStatus: isVerified ? 'VERIFIED' : 'PENDING' 
+      });
+    }
+  };
+
+  // Instant 1-click verification for currentUser (administrative demo simulator)
+  const verifyCurrentUser = () => {
+    if (!currentUser) return;
+    const updated: AuthUser = {
+      ...currentUser,
+      isVerified: true,
+      verificationStatus: 'VERIFIED'
+    };
+    setCurrentUser(updated);
+    if (typeof window !== 'undefined') localStorage.setItem(STORAGE_KEYS.USER, JSON.stringify(updated));
+
+    // Also update respective list record
+    if (currentUser.role === 'DOCTOR') {
+      verifyDoctor(currentUser.id, true);
+    } else if (currentUser.role === 'PATIENT') {
+      verifyPatient(currentUser.id, true);
+    } else if (currentUser.role === 'MANAGEMENT' && activeTenant) {
+      verifyHospital(activeTenant.id, true);
+    }
+  };
+
+  const toggleCurrentUserVerification = () => {
+    if (!currentUser) return;
+    const newStatus = !currentUser.isVerified;
+    const updated: AuthUser = {
+      ...currentUser,
+      isVerified: newStatus,
+      verificationStatus: newStatus ? 'VERIFIED' : 'PENDING'
+    };
+    setCurrentUser(updated);
+    if (typeof window !== 'undefined') localStorage.setItem(STORAGE_KEYS.USER, JSON.stringify(updated));
   };
 
   // Helper to generate dynamic token numbers like CARD-105 or PULM-103
@@ -282,13 +499,17 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
 
   // 6. Fast walk-in registration at front desk
   const registerWalkIn = (
-    patientData: Omit<PatientProfile, 'id'>, 
+    patientData: Omit<PatientProfile, 'id' | 'isVerified' | 'verificationStatus'>, 
     doctorId: string, 
     reason: string
   ): { patient: PatientProfile; appointment: Appointment } => {
     const newPatient: PatientProfile = {
       ...patientData,
       id: `pat-${Date.now()}`,
+      isVerified: true,
+      verificationStatus: 'VERIFIED',
+      hospitalId: activeTenant.id,
+      abhaId: `91-${Math.floor(1000 + Math.random() * 9000)}-${Math.floor(1000 + Math.random() * 9000)}-${Math.floor(1000 + Math.random() * 9000)}`
     };
 
     const updatedPatients = [newPatient, ...patients];
@@ -341,6 +562,9 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
     setReports(INITIAL_REPORTS);
     setPatients(INITIAL_PATIENTS);
     setDoctors(INITIAL_DOCTORS);
+    setReceptionists(INITIAL_RECEPTIONISTS);
+    setTenants(INITIAL_TENANTS);
+    setActiveTenantState(INITIAL_TENANTS[0]);
     setActiveRoleState('PATIENT');
     setCurrentPatient(INITIAL_PATIENTS[0]);
     setCurrentDoctor(INITIAL_DOCTORS[0]);
@@ -348,7 +572,10 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
       id: INITIAL_PATIENTS[0].id,
       name: INITIAL_PATIENTS[0].name,
       email: INITIAL_PATIENTS[0].email,
-      role: 'PATIENT'
+      role: 'PATIENT',
+      isVerified: true,
+      verificationStatus: 'VERIFIED',
+      tenantId: INITIAL_TENANTS[0].id
     });
     setIsAuthenticated(true);
   };
@@ -371,9 +598,19 @@ export function StoreProvider({ children }: { children: React.ReactNode }) {
       setCurrentDoctor,
       doctors,
       patients,
+      receptionists,
       appointments,
       visits,
       reports,
+      provisionHospital,
+      verifyHospital,
+      provisionDoctor,
+      verifyDoctor,
+      provisionReceptionist,
+      verifyReceptionist,
+      verifyPatient,
+      verifyCurrentUser,
+      toggleCurrentUserVerification,
       bookAppointment,
       checkInAppointment,
       startConsultation,
