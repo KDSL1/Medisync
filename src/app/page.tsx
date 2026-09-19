@@ -4,6 +4,8 @@ import React, { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useStore } from '@/lib/store';
+import Card3D from '@/components/Card3D';
+import Hero3DVisual from '@/components/Hero3DVisual';
 import { 
   User, 
   Stethoscope, 
@@ -70,7 +72,7 @@ export default function HomePage() {
       </div>
 
       {/* Hero Section */}
-      <section className="relative pt-16 pb-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto text-center">
+      <section className="relative pt-16 pb-16 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto text-center">
         
         <div className="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-brand-50 dark:bg-brand-950/60 border border-brand-200 dark:border-brand-900 text-brand-700 dark:text-brand-300 text-xs font-semibold mb-6 shadow-xs">
           <Sparkles className="w-3.5 h-3.5 text-brand-600 animate-spin" style={{ animationDuration: '6s' }} />
@@ -88,20 +90,20 @@ export default function HomePage() {
           Eliminate paper folders forever. MediSync provides patients with a permanent health timeline and an <strong>AI Medical Report Explainer</strong>, while giving clinics real-time queue tokens, SOAP notes, and billing.
         </p>
 
-        {/* Hero CTAs */}
+        {/* Hero 3D Tactile CTAs */}
         <div className="mt-8 flex flex-col sm:flex-row items-center justify-center gap-3.5">
           <Link
             href="/login"
-            className="w-full sm:w-auto flex items-center justify-center space-x-2 py-3 px-6 rounded-xl bg-slate-900 dark:bg-white text-white dark:text-slate-900 hover:bg-slate-800 dark:hover:bg-slate-100 font-bold text-xs shadow-md transition-all group cursor-pointer"
+            className="w-full sm:w-auto flex items-center justify-center space-x-2 py-3 px-6 rounded-xl btn-3d-dark text-white font-bold text-xs transition-all group cursor-pointer"
           >
-            <Lock className="w-3.5 h-3.5" />
+            <Lock className="w-3.5 h-3.5 text-slate-300" />
             <span>Sign In to Your Workspace</span>
             <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
           </Link>
 
           <Link
             href="/login?mode=register"
-            className="w-full sm:w-auto flex items-center justify-center space-x-2 py-3 px-6 rounded-xl bg-brand-600 hover:bg-brand-700 text-white font-bold text-xs shadow-md shadow-brand-500/20 transition-all cursor-pointer"
+            className="w-full sm:w-auto flex items-center justify-center space-x-2 py-3 px-6 rounded-xl btn-3d-primary text-white font-bold text-xs transition-all cursor-pointer"
           >
             <UserPlus className="w-3.5 h-3.5" />
             <span>Register as New Patient</span>
@@ -109,7 +111,7 @@ export default function HomePage() {
 
           <Link
             href="/login?mode=admin"
-            className="w-full sm:w-auto flex items-center justify-center space-x-2 py-3 px-5 rounded-xl bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-200 border border-slate-200 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800 font-bold text-xs shadow-xs transition-all cursor-pointer"
+            className="w-full sm:w-auto flex items-center justify-center space-x-2 py-3 px-5 rounded-xl btn-3d-white border border-slate-200 dark:border-slate-800 font-bold text-xs transition-all cursor-pointer"
           >
             <Building2 className="w-3.5 h-3.5 text-purple-600" />
             <span>Hospital Admin</span>
@@ -124,8 +126,11 @@ export default function HomePage() {
           </Link>
         </div>
 
+        {/* 3D Interactive Clinical Hologram & Telemetry Visual */}
+        <Hero3DVisual />
+
         {/* Live Operational Metric Pill Bar */}
-        <div className="mt-12 flex flex-wrap justify-center gap-3 text-xs font-semibold text-slate-700 dark:text-slate-300">
+        <div className="mt-8 flex flex-wrap justify-center gap-3 text-xs font-semibold text-slate-700 dark:text-slate-300">
           <div className="flex items-center space-x-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 px-4 py-2 rounded-xl shadow-xs">
             <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping" />
             <span>Zero-Knowledge Patient Vault</span>
@@ -161,35 +166,41 @@ export default function HomePage() {
 
           {/* The 3 Core Tenets */}
           <div className="mt-14 grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="p-7 rounded-3xl bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700/80 hover:shadow-lg transition-all">
-              <div className="w-12 h-12 rounded-2xl bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300 flex items-center justify-center mb-5 border border-emerald-200 dark:border-emerald-800">
-                <Database className="w-6 h-6" />
+            <Card3D maxTilt={8} scale={1.03} className="h-full">
+              <div className="p-7 rounded-3xl bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700/80 hover:shadow-lg transition-all h-full preserve-3d">
+                <div className="w-12 h-12 rounded-2xl bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300 flex items-center justify-center mb-5 border border-emerald-200 dark:border-emerald-800 translate-z-30 shadow-xs">
+                  <Database className="w-6 h-6" />
+                </div>
+                <h3 className="text-base font-bold text-slate-900 dark:text-white translate-z-20">Sovereign Patient Ownership</h3>
+                <p className="mt-2 text-xs text-slate-600 dark:text-slate-400 leading-relaxed translate-z-10">
+                  Medical history belongs to the patient—not trapped inside a proprietary hospital silo. MediSync gives patients a lifelong, verifiable chronological health record accessible whenever and wherever they seek treatment.
+                </p>
               </div>
-              <h3 className="text-base font-bold text-slate-900 dark:text-white">Sovereign Patient Ownership</h3>
-              <p className="mt-2 text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
-                Medical history belongs to the patient—not trapped inside a proprietary hospital silo. MediSync gives patients a lifelong, verifiable chronological health record accessible whenever and wherever they seek treatment.
-              </p>
-            </div>
+            </Card3D>
 
-            <div className="p-7 rounded-3xl bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700/80 hover:shadow-lg transition-all">
-              <div className="w-12 h-12 rounded-2xl bg-brand-100 dark:bg-brand-950 text-brand-700 dark:text-brand-300 flex items-center justify-center mb-5 border border-brand-200 dark:border-brand-800">
-                <Sparkles className="w-6 h-6" />
+            <Card3D maxTilt={8} scale={1.03} className="h-full">
+              <div className="p-7 rounded-3xl bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700/80 hover:shadow-lg transition-all h-full preserve-3d">
+                <div className="w-12 h-12 rounded-2xl bg-brand-100 dark:bg-brand-950 text-brand-700 dark:text-brand-300 flex items-center justify-center mb-5 border border-brand-200 dark:border-brand-800 translate-z-30 shadow-xs">
+                  <Sparkles className="w-6 h-6" />
+                </div>
+                <h3 className="text-base font-bold text-slate-900 dark:text-white translate-z-20">Explainable AI for Health Literacy</h3>
+                <p className="mt-2 text-xs text-slate-600 dark:text-slate-400 leading-relaxed translate-z-10">
+                  Diagnostic reports are dense and frightening for non-clinical individuals. MediSync translates complex lab values, abnormal flags, and imaging impressions into clear, 6th-grade level English with actionable doctor questions.
+                </p>
               </div>
-              <h3 className="text-base font-bold text-slate-900 dark:text-white">Explainable AI for Health Literacy</h3>
-              <p className="mt-2 text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
-                Diagnostic reports are dense and frightening for non-clinical individuals. MediSync translates complex lab values, abnormal flags, and imaging impressions into clear, 6th-grade level English with actionable doctor questions.
-              </p>
-            </div>
+            </Card3D>
 
-            <div className="p-7 rounded-3xl bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700/80 hover:shadow-lg transition-all">
-              <div className="w-12 h-12 rounded-2xl bg-indigo-100 dark:bg-indigo-950 text-indigo-700 dark:text-indigo-300 flex items-center justify-center mb-5 border border-indigo-200 dark:border-indigo-800">
-                <Zap className="w-6 h-6" />
+            <Card3D maxTilt={8} scale={1.03} className="h-full">
+              <div className="p-7 rounded-3xl bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700/80 hover:shadow-lg transition-all h-full preserve-3d">
+                <div className="w-12 h-12 rounded-2xl bg-indigo-100 dark:bg-indigo-950 text-indigo-700 dark:text-indigo-300 flex items-center justify-center mb-5 border border-indigo-200 dark:border-indigo-800 translate-z-30 shadow-xs">
+                  <Zap className="w-6 h-6" />
+                </div>
+                <h3 className="text-base font-bold text-slate-900 dark:text-white translate-z-20">Zero-Latency Clinic Harmony</h3>
+                <p className="mt-2 text-xs text-slate-600 dark:text-slate-400 leading-relaxed translate-z-10">
+                  When a receptionist checks in a patient, the queue token instantly rings in the doctor’s cockpit. When the doctor signs the SOAP prescription, it instantly appears in the patient’s vault and the hospital director’s revenue metrics.
+                </p>
               </div>
-              <h3 className="text-base font-bold text-slate-900 dark:text-white">Zero-Latency Clinic Harmony</h3>
-              <p className="mt-2 text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
-                When a receptionist checks in a patient, the queue token instantly rings in the doctor’s cockpit. When the doctor signs the SOAP prescription, it instantly appears in the patient’s vault and the hospital director’s revenue metrics.
-              </p>
-            </div>
+            </Card3D>
           </div>
 
           {/* Old Way vs. MediSync 360 Matrix */}
@@ -527,46 +538,48 @@ export default function HomePage() {
             </div>
 
             {/* Device Mockup */}
-            <div className="lg:col-span-5 flex justify-center">
-              <div className="w-72 bg-slate-950 p-4 rounded-[40px] border-4 border-slate-800 shadow-2xl relative">
-                <div className="w-24 h-4 bg-slate-800 rounded-full mx-auto mb-3" />
-                <div className="bg-white rounded-[28px] p-4 text-slate-900 space-y-3">
-                  <div className="flex items-center justify-between border-b pb-2">
-                    <div className="flex items-center space-x-2">
-                      <div className="w-7 h-7 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold text-xs">RS</div>
-                      <div>
-                        <p className="text-xs font-bold leading-tight">Rahul Sharma</p>
-                        <p className="text-[9px] text-slate-400">Health ID: #9832-RS</p>
+            <div className="lg:col-span-5 flex justify-center perspective-1000">
+              <Card3D maxTilt={14} scale={1.03}>
+                <div className="w-72 bg-slate-950 p-4 rounded-[40px] border-4 border-slate-700/80 shadow-2xl relative preserve-3d hologram-glow">
+                  <div className="w-24 h-4 bg-slate-800 rounded-full mx-auto mb-3 translate-z-20" />
+                  <div className="bg-white rounded-[28px] p-4 text-slate-900 space-y-3 preserve-3d">
+                    <div className="flex items-center justify-between border-b pb-2 translate-z-10">
+                      <div className="flex items-center space-x-2">
+                        <div className="w-7 h-7 rounded-full bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold text-xs">RS</div>
+                        <div>
+                          <p className="text-xs font-bold leading-tight">Rahul Sharma</p>
+                          <p className="text-[9px] text-slate-400">Health ID: #9832-RS</p>
+                        </div>
                       </div>
+                      <span className="text-[9px] font-bold px-2 py-0.5 rounded bg-emerald-50 text-emerald-700">Verified</span>
                     </div>
-                    <span className="text-[9px] font-bold px-2 py-0.5 rounded bg-emerald-50 text-emerald-700">Verified</span>
-                  </div>
 
-                  <div className="bg-amber-500 text-white p-3 rounded-xl">
-                    <span className="text-[9px] uppercase font-bold tracking-wider">Live OPD Token</span>
-                    <p className="text-lg font-black mt-0.5">CARD-101</p>
-                    <p className="text-[10px] text-amber-100">Dr. Vikram Mehta &bull; Room 204</p>
-                  </div>
+                    <div className="bg-amber-500 text-white p-3 rounded-xl translate-z-30 shadow-md">
+                      <span className="text-[9px] uppercase font-bold tracking-wider">Live OPD Token</span>
+                      <p className="text-lg font-black mt-0.5 font-mono">CARD-101</p>
+                      <p className="text-[10px] text-amber-100">Dr. Vikram Mehta &bull; Room 204</p>
+                    </div>
 
-                  <div className="bg-brand-50 border border-brand-200 p-2.5 rounded-xl">
-                    <span className="text-[9px] font-bold uppercase tracking-wider text-brand-800 flex items-center space-x-1">
-                      <Sparkles className="w-3 h-3 text-brand-600" />
-                      <span>AI Report Insight</span>
-                    </span>
-                    <p className="text-[10px] text-slate-700 mt-1 leading-snug">
-                      Lipid Panel: LDL slightly elevated (147 mg/dL). Good HDL is healthy.
-                    </p>
-                  </div>
+                    <div className="bg-brand-50 border border-brand-200 p-2.5 rounded-xl translate-z-20 shadow-xs">
+                      <span className="text-[9px] font-bold uppercase tracking-wider text-brand-800 flex items-center space-x-1">
+                        <Sparkles className="w-3 h-3 text-brand-600" />
+                        <span>AI Report Insight</span>
+                      </span>
+                      <p className="text-[10px] text-slate-700 mt-1 leading-snug">
+                        Lipid Panel: LDL slightly elevated (147 mg/dL). Good HDL is healthy.
+                      </p>
+                    </div>
 
-                  <div className="text-[10px] space-y-1.5 pt-1">
-                    <p className="font-bold text-slate-500 uppercase text-[8px]">Recent Encounters</p>
-                    <div className="p-2 rounded-lg bg-slate-50 border flex justify-between">
-                      <span>Cardiology Consult</span>
-                      <strong className="text-slate-800">Aug 10</strong>
+                    <div className="text-[10px] space-y-1.5 pt-1 translate-z-10">
+                      <p className="font-bold text-slate-500 uppercase text-[8px]">Recent Encounters</p>
+                      <div className="p-2 rounded-lg bg-slate-50 border flex justify-between">
+                        <span>Cardiology Consult</span>
+                        <strong className="text-slate-800">Aug 10</strong>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
+              </Card3D>
             </div>
 
           </div>
@@ -651,96 +664,104 @@ export default function HomePage() {
           <div className="mt-14 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             
             {/* Level 1: Super Admin */}
-            <div className="p-6 rounded-3xl bg-white dark:bg-slate-900 border border-indigo-200 dark:border-indigo-900 shadow-sm relative overflow-hidden flex flex-col justify-between group hover:shadow-lg transition-all">
-              <div>
-                <div className="flex items-center justify-between mb-4">
-                  <div className="w-11 h-11 rounded-2xl bg-indigo-50 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-400 flex items-center justify-center border border-indigo-200 dark:border-indigo-800 font-bold">
-                    <Crown className="w-5 h-5" />
+            <Card3D maxTilt={9} scale={1.03} className="h-full">
+              <div className="p-6 rounded-3xl bg-white dark:bg-slate-900 border border-indigo-200 dark:border-indigo-900 shadow-sm relative overflow-hidden flex flex-col justify-between h-full group preserve-3d">
+                <div>
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="w-11 h-11 rounded-2xl bg-indigo-50 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-400 flex items-center justify-center border border-indigo-200 dark:border-indigo-800 font-bold translate-z-30 shadow-sm">
+                      <Crown className="w-5 h-5" />
+                    </div>
+                    <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded-full bg-indigo-100 dark:bg-indigo-950 text-indigo-800 dark:text-indigo-300 translate-z-20">
+                      LEVEL 1
+                    </span>
                   </div>
-                  <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded-full bg-indigo-100 dark:bg-indigo-950 text-indigo-800 dark:text-indigo-300">
-                    LEVEL 1
-                  </span>
+                  <h3 className="text-base font-bold text-slate-900 dark:text-white translate-z-20">Super Admin</h3>
+                  <span className="text-[11px] text-indigo-600 dark:text-indigo-400 font-semibold block mt-0.5 translate-z-10">Platform Owner (&quot;My Login&quot;)</span>
+                  <p className="mt-2.5 text-xs text-slate-500 dark:text-slate-400 leading-relaxed translate-z-10">
+                    Provisions accounts for new hospital networks, generates ABDM M3 Facility IDs, and manages multi-tenant clinical nodes.
+                  </p>
                 </div>
-                <h3 className="text-base font-bold text-slate-900 dark:text-white">Super Admin</h3>
-                <span className="text-[11px] text-indigo-600 dark:text-indigo-400 font-semibold block mt-0.5">Platform Owner (&quot;My Login&quot;)</span>
-                <p className="mt-2.5 text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
-                  Provisions accounts for new hospital networks, generates ABDM M3 Facility IDs, and manages multi-tenant clinical nodes.
-                </p>
+                <div className="mt-6 pt-3 border-t border-slate-100 dark:border-slate-800 text-[11px] font-bold text-indigo-600 dark:text-indigo-400 flex items-center justify-between translate-z-20">
+                  <span>Target: Hospital Accounts</span>
+                  <ChevronRight className="w-3.5 h-3.5" />
+                </div>
               </div>
-              <div className="mt-6 pt-3 border-t border-slate-100 dark:border-slate-800 text-[11px] font-bold text-indigo-600 dark:text-indigo-400 flex items-center justify-between">
-                <span>Target: Hospital Accounts</span>
-                <ChevronRight className="w-3.5 h-3.5" />
-              </div>
-            </div>
+            </Card3D>
 
             {/* Level 2: Hospital Admin */}
-            <div className="p-6 rounded-3xl bg-white dark:bg-slate-900 border border-purple-200 dark:border-purple-900 shadow-sm relative overflow-hidden flex flex-col justify-between group hover:shadow-lg transition-all">
-              <div>
-                <div className="flex items-center justify-between mb-4">
-                  <div className="w-11 h-11 rounded-2xl bg-purple-50 dark:bg-purple-950 text-purple-600 dark:text-purple-400 flex items-center justify-center border border-purple-200 dark:border-purple-800 font-bold">
-                    <Building2 className="w-5 h-5" />
+            <Card3D maxTilt={9} scale={1.03} className="h-full">
+              <div className="p-6 rounded-3xl bg-white dark:bg-slate-900 border border-purple-200 dark:border-purple-900 shadow-sm relative overflow-hidden flex flex-col justify-between h-full group preserve-3d">
+                <div>
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="w-11 h-11 rounded-2xl bg-purple-50 dark:bg-purple-950 text-purple-600 dark:text-purple-400 flex items-center justify-center border border-purple-200 dark:border-purple-800 font-bold translate-z-30 shadow-sm">
+                      <Building2 className="w-5 h-5" />
+                    </div>
+                    <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded-full bg-purple-100 dark:bg-purple-950 text-purple-800 dark:text-purple-300 translate-z-20">
+                      LEVEL 2
+                    </span>
                   </div>
-                  <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded-full bg-purple-100 dark:bg-purple-950 text-purple-800 dark:text-purple-300">
-                    LEVEL 2
-                  </span>
+                  <h3 className="text-base font-bold text-slate-900 dark:text-white translate-z-20">Hospital Admin</h3>
+                  <span className="text-[11px] text-purple-600 dark:text-purple-400 font-semibold block mt-0.5 translate-z-10">Clinic Director</span>
+                  <p className="mt-2.5 text-xs text-slate-500 dark:text-slate-400 leading-relaxed translate-z-10">
+                    Hospital receives account from Super Admin. The Hospital Admin logs in, provisions departments, and grants access to doctors &amp; receptionists.
+                  </p>
                 </div>
-                <h3 className="text-base font-bold text-slate-900 dark:text-white">Hospital Admin</h3>
-                <span className="text-[11px] text-purple-600 dark:text-purple-400 font-semibold block mt-0.5">Clinic Director</span>
-                <p className="mt-2.5 text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
-                  Hospital receives account from Super Admin. The Hospital Admin logs in, provisions departments, and grants access to doctors &amp; receptionists.
-                </p>
+                <div className="mt-6 pt-3 border-t border-slate-100 dark:border-slate-800 text-[11px] font-bold text-purple-600 dark:text-purple-400 flex items-center justify-between translate-z-20">
+                  <span>Target: Staff &amp; Patients</span>
+                  <ChevronRight className="w-3.5 h-3.5" />
+                </div>
               </div>
-              <div className="mt-6 pt-3 border-t border-slate-100 dark:border-slate-800 text-[11px] font-bold text-purple-600 dark:text-purple-400 flex items-center justify-between">
-                <span>Target: Staff &amp; Patients</span>
-                <ChevronRight className="w-3.5 h-3.5" />
-              </div>
-            </div>
+            </Card3D>
 
             {/* Level 3: Doctors & Receptionists */}
-            <div className="p-6 rounded-3xl bg-white dark:bg-slate-900 border border-blue-200 dark:border-blue-900 shadow-sm relative overflow-hidden flex flex-col justify-between group hover:shadow-lg transition-all">
-              <div>
-                <div className="flex items-center justify-between mb-4">
-                  <div className="w-11 h-11 rounded-2xl bg-blue-50 dark:bg-blue-950 text-blue-600 dark:text-blue-400 flex items-center justify-center border border-blue-200 dark:border-blue-800 font-bold">
-                    <Stethoscope className="w-5 h-5" />
+            <Card3D maxTilt={9} scale={1.03} className="h-full">
+              <div className="p-6 rounded-3xl bg-white dark:bg-slate-900 border border-blue-200 dark:border-blue-900 shadow-sm relative overflow-hidden flex flex-col justify-between h-full group preserve-3d">
+                <div>
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="w-11 h-11 rounded-2xl bg-blue-50 dark:bg-blue-950 text-blue-600 dark:text-blue-400 flex items-center justify-center border border-blue-200 dark:border-blue-800 font-bold translate-z-30 shadow-sm">
+                      <Stethoscope className="w-5 h-5" />
+                    </div>
+                    <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded-full bg-blue-100 dark:bg-blue-950 text-blue-800 dark:text-blue-300 translate-z-20">
+                      LEVEL 3
+                    </span>
                   </div>
-                  <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded-full bg-blue-100 dark:bg-blue-950 text-blue-800 dark:text-blue-300">
-                    LEVEL 3
-                  </span>
+                  <h3 className="text-base font-bold text-slate-900 dark:text-white translate-z-20">Doctors &amp; Staff</h3>
+                  <span className="text-[11px] text-blue-600 dark:text-blue-400 font-semibold block mt-0.5 translate-z-10">Clinical Operations</span>
+                  <p className="mt-2.5 text-xs text-slate-500 dark:text-slate-400 leading-relaxed translate-z-10">
+                    Physicians and receptionists must be verified by the Hospital Admin before accessing patient queue tokens and SOAP clinical notes.
+                  </p>
                 </div>
-                <h3 className="text-base font-bold text-slate-900 dark:text-white">Doctors &amp; Staff</h3>
-                <span className="text-[11px] text-blue-600 dark:text-blue-400 font-semibold block mt-0.5">Clinical Operations</span>
-                <p className="mt-2.5 text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
-                  Physicians and receptionists must be verified by the Hospital Admin before accessing patient queue tokens and SOAP clinical notes.
-                </p>
+                <div className="mt-6 pt-3 border-t border-slate-100 dark:border-slate-800 text-[11px] font-bold text-blue-600 dark:text-blue-400 flex items-center justify-between translate-z-20">
+                  <span>Target: OPD &amp; Consultations</span>
+                  <ChevronRight className="w-3.5 h-3.5" />
+                </div>
               </div>
-              <div className="mt-6 pt-3 border-t border-slate-100 dark:border-slate-800 text-[11px] font-bold text-blue-600 dark:text-blue-400 flex items-center justify-between">
-                <span>Target: OPD &amp; Consultations</span>
-                <ChevronRight className="w-3.5 h-3.5" />
-              </div>
-            </div>
+            </Card3D>
 
             {/* Level 4: Patients */}
-            <div className="p-6 rounded-3xl bg-white dark:bg-slate-900 border border-emerald-200 dark:border-emerald-900 shadow-sm relative overflow-hidden flex flex-col justify-between group hover:shadow-lg transition-all">
-              <div>
-                <div className="flex items-center justify-between mb-4">
-                  <div className="w-11 h-11 rounded-2xl bg-emerald-50 dark:bg-emerald-950 text-emerald-600 dark:text-emerald-400 flex items-center justify-center border border-emerald-200 dark:border-emerald-800 font-bold">
-                    <User className="w-5 h-5" />
+            <Card3D maxTilt={9} scale={1.03} className="h-full">
+              <div className="p-6 rounded-3xl bg-white dark:bg-slate-900 border border-emerald-200 dark:border-emerald-900 shadow-sm relative overflow-hidden flex flex-col justify-between h-full group preserve-3d">
+                <div>
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="w-11 h-11 rounded-2xl bg-emerald-50 dark:bg-emerald-950 text-emerald-600 dark:text-emerald-400 flex items-center justify-center border border-emerald-200 dark:border-emerald-800 font-bold translate-z-30 shadow-sm">
+                      <User className="w-5 h-5" />
+                    </div>
+                    <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded-full bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300 translate-z-20">
+                      LEVEL 4
+                    </span>
                   </div>
-                  <span className="text-[10px] font-mono font-bold px-2 py-0.5 rounded-full bg-emerald-100 dark:bg-emerald-950 text-emerald-800 dark:text-emerald-300">
-                    LEVEL 4
-                  </span>
+                  <h3 className="text-base font-bold text-slate-900 dark:text-white translate-z-20">Verified Patients</h3>
+                  <span className="text-[11px] text-emerald-600 dark:text-emerald-400 font-semibold block mt-0.5 translate-z-10">Sovereign Health Locker</span>
+                  <p className="mt-2.5 text-xs text-slate-500 dark:text-slate-400 leading-relaxed translate-z-10">
+                    Registered by clinic or self-enrolled with ABHA Health ID. Verified patients unlock lifelong chronological timelines and plain-English AI explanations.
+                  </p>
                 </div>
-                <h3 className="text-base font-bold text-slate-900 dark:text-white">Verified Patients</h3>
-                <span className="text-[11px] text-emerald-600 dark:text-emerald-400 font-semibold block mt-0.5">Sovereign Health Locker</span>
-                <p className="mt-2.5 text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
-                  Registered by clinic or self-enrolled with ABHA Health ID. Verified patients unlock lifelong chronological timelines and plain-English AI explanations.
-                </p>
+                <div className="mt-6 pt-3 border-t border-slate-100 dark:border-slate-800 text-[11px] font-bold text-emerald-600 dark:text-emerald-400 flex items-center justify-between translate-z-20">
+                  <span>Target: Personal Health Records</span>
+                  <ChevronRight className="w-3.5 h-3.5" />
+                </div>
               </div>
-              <div className="mt-6 pt-3 border-t border-slate-100 dark:border-slate-800 text-[11px] font-bold text-emerald-600 dark:text-emerald-400 flex items-center justify-between">
-                <span>Target: Personal Health Records</span>
-                <ChevronRight className="w-3.5 h-3.5" />
-              </div>
-            </div>
+            </Card3D>
 
           </div>
 
@@ -785,129 +806,139 @@ export default function HomePage() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-5">
           
           {/* Super Admin Portal */}
-          <div className="bg-white dark:bg-slate-900 rounded-3xl p-5 border border-slate-200 dark:border-slate-800 hover:border-indigo-300 hover:shadow-xl transition-all flex flex-col justify-between group">
-            <div>
-              <div className="w-10 h-10 rounded-2xl bg-indigo-50 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-400 flex items-center justify-center mb-3 border border-indigo-200 dark:border-indigo-800">
-                <Crown className="w-5 h-5" />
+          <Card3D maxTilt={12} scale={1.04} className="h-full">
+            <div className="bg-white dark:bg-slate-900 rounded-3xl p-5 border border-slate-200 dark:border-slate-800 hover:border-indigo-300 hover:shadow-xl transition-all flex flex-col justify-between h-full group preserve-3d">
+              <div>
+                <div className="w-10 h-10 rounded-2xl bg-indigo-50 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-400 flex items-center justify-center mb-3 border border-indigo-200 dark:border-indigo-800 translate-z-30 shadow-xs">
+                  <Crown className="w-5 h-5" />
+                </div>
+                <span className="text-[10px] font-bold uppercase tracking-wider text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-950/60 px-2 py-0.5 rounded-full border border-indigo-200 dark:border-indigo-800 translate-z-20">
+                  Level 1 Root
+                </span>
+                <h3 className="text-base font-bold text-slate-900 dark:text-white mt-2 group-hover:text-indigo-600 transition-colors translate-z-20">
+                  Super Admin
+                </h3>
+                <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 leading-relaxed translate-z-10">
+                  Hospital provisioning, tenant management, and platform governance.
+                </p>
               </div>
-              <span className="text-[10px] font-bold uppercase tracking-wider text-indigo-600 dark:text-indigo-400 bg-indigo-50 dark:bg-indigo-950/60 px-2 py-0.5 rounded-full border border-indigo-200 dark:border-indigo-800">
-                Level 1 Root
-              </span>
-              <h3 className="text-base font-bold text-slate-900 dark:text-white mt-2 group-hover:text-indigo-600 transition-colors">
-                Super Admin
-              </h3>
-              <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">
-                Hospital provisioning, tenant management, and platform governance.
-              </p>
+              <button
+                onClick={() => launchPortal('SUPER_ADMIN', '/super-admin')}
+                className="mt-5 w-full py-2.5 rounded-xl btn-3d-dark text-white text-xs font-bold transition-all flex items-center justify-center space-x-1 cursor-pointer translate-z-30"
+              >
+                <span>Launch Super Admin</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </button>
             </div>
-            <button
-              onClick={() => launchPortal('SUPER_ADMIN', '/super-admin')}
-              className="mt-5 w-full py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold shadow-xs transition-colors flex items-center justify-center space-x-1 cursor-pointer"
-            >
-              <span>Launch Super Admin</span>
-              <ArrowRight className="w-3.5 h-3.5" />
-            </button>
-          </div>
+          </Card3D>
 
           {/* Management Portal */}
-          <div className="bg-white dark:bg-slate-900 rounded-3xl p-5 border border-slate-200 dark:border-slate-800 hover:border-purple-300 hover:shadow-xl transition-all flex flex-col justify-between group">
-            <div>
-              <div className="w-10 h-10 rounded-2xl bg-purple-50 dark:bg-purple-950 text-purple-600 dark:text-purple-400 flex items-center justify-center mb-3 border border-purple-200 dark:border-purple-800">
-                <Building2 className="w-5 h-5" />
+          <Card3D maxTilt={12} scale={1.04} className="h-full">
+            <div className="bg-white dark:bg-slate-900 rounded-3xl p-5 border border-slate-200 dark:border-slate-800 hover:border-purple-300 hover:shadow-xl transition-all flex flex-col justify-between h-full group preserve-3d">
+              <div>
+                <div className="w-10 h-10 rounded-2xl bg-purple-50 dark:bg-purple-950 text-purple-600 dark:text-purple-400 flex items-center justify-center mb-3 border border-purple-200 dark:border-purple-800 translate-z-30 shadow-xs">
+                  <Building2 className="w-5 h-5" />
+                </div>
+                <span className="text-[10px] font-bold uppercase tracking-wider text-purple-600 dark:text-purple-400 bg-purple-50 dark:bg-purple-950/60 px-2 py-0.5 rounded-full border border-purple-200 dark:border-purple-800 translate-z-20">
+                  Level 2 Director
+                </span>
+                <h3 className="text-base font-bold text-slate-900 dark:text-white mt-2 group-hover:text-purple-600 transition-colors translate-z-20">
+                  Hospital Admin
+                </h3>
+                <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 leading-relaxed translate-z-10">
+                  Staff &amp; patient verification desk, department wings, and revenue POS.
+                </p>
               </div>
-              <span className="text-[10px] font-bold uppercase tracking-wider text-purple-600 dark:text-purple-400 bg-purple-50 dark:bg-purple-950/60 px-2 py-0.5 rounded-full border border-purple-200 dark:border-purple-800">
-                Level 2 Director
-              </span>
-              <h3 className="text-base font-bold text-slate-900 dark:text-white mt-2 group-hover:text-purple-600 transition-colors">
-                Hospital Admin
-              </h3>
-              <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">
-                Staff &amp; patient verification desk, department wings, and revenue POS.
-              </p>
+              <button
+                onClick={() => launchPortal('MANAGEMENT', '/management')}
+                className="mt-5 w-full py-2.5 rounded-xl bg-purple-600 hover:bg-purple-700 text-white text-xs font-bold shadow-xs transition-colors flex items-center justify-center space-x-1 cursor-pointer translate-z-30"
+              >
+                <span>Launch Admin Desk</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </button>
             </div>
-            <button
-              onClick={() => launchPortal('MANAGEMENT', '/management')}
-              className="mt-5 w-full py-2.5 rounded-xl bg-purple-600 hover:bg-purple-700 text-white text-xs font-bold shadow-xs transition-colors flex items-center justify-center space-x-1 cursor-pointer"
-            >
-              <span>Launch Admin Desk</span>
-              <ArrowRight className="w-3.5 h-3.5" />
-            </button>
-          </div>
+          </Card3D>
 
           {/* Doctor Portal */}
-          <div className="bg-white dark:bg-slate-900 rounded-3xl p-5 border border-slate-200 dark:border-slate-800 hover:border-blue-300 hover:shadow-xl transition-all flex flex-col justify-between group">
-            <div>
-              <div className="w-10 h-10 rounded-2xl bg-blue-50 dark:bg-blue-950 text-blue-600 dark:text-blue-400 flex items-center justify-center mb-3 border border-blue-200 dark:border-blue-800">
-                <Stethoscope className="w-5 h-5" />
+          <Card3D maxTilt={12} scale={1.04} className="h-full">
+            <div className="bg-white dark:bg-slate-900 rounded-3xl p-5 border border-slate-200 dark:border-slate-800 hover:border-blue-300 hover:shadow-xl transition-all flex flex-col justify-between h-full group preserve-3d">
+              <div>
+                <div className="w-10 h-10 rounded-2xl bg-blue-50 dark:bg-blue-950 text-blue-600 dark:text-blue-400 flex items-center justify-center mb-3 border border-blue-200 dark:border-blue-800 translate-z-30 shadow-xs">
+                  <Stethoscope className="w-5 h-5" />
+                </div>
+                <span className="text-[10px] font-bold uppercase tracking-wider text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-950/60 px-2 py-0.5 rounded-full border border-blue-200 dark:border-blue-800 translate-z-20">
+                  Level 3 Physician
+                </span>
+                <h3 className="text-base font-bold text-slate-900 dark:text-white mt-2 group-hover:text-blue-600 transition-colors translate-z-20">
+                  Doctor Cockpit
+                </h3>
+                <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 leading-relaxed translate-z-10">
+                  Live queue caller, patient dossier, SOAP notes, and prescription writer.
+                </p>
               </div>
-              <span className="text-[10px] font-bold uppercase tracking-wider text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-950/60 px-2 py-0.5 rounded-full border border-blue-200 dark:border-blue-800">
-                Level 3 Physician
-              </span>
-              <h3 className="text-base font-bold text-slate-900 dark:text-white mt-2 group-hover:text-blue-600 transition-colors">
-                Doctor Cockpit
-              </h3>
-              <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">
-                Live queue caller, patient dossier, SOAP notes, and prescription writer.
-              </p>
+              <button
+                onClick={() => launchPortal('DOCTOR', '/doctor')}
+                className="mt-5 w-full py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold shadow-xs transition-colors flex items-center justify-center space-x-1 cursor-pointer translate-z-30"
+              >
+                <span>Launch Doctor Cockpit</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </button>
             </div>
-            <button
-              onClick={() => launchPortal('DOCTOR', '/doctor')}
-              className="mt-5 w-full py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold shadow-xs transition-colors flex items-center justify-center space-x-1 cursor-pointer"
-            >
-              <span>Launch Doctor Cockpit</span>
-              <ArrowRight className="w-3.5 h-3.5" />
-            </button>
-          </div>
+          </Card3D>
 
           {/* Receptionist Portal */}
-          <div className="bg-white dark:bg-slate-900 rounded-3xl p-5 border border-slate-200 dark:border-slate-800 hover:border-amber-300 hover:shadow-xl transition-all flex flex-col justify-between group">
-            <div>
-              <div className="w-10 h-10 rounded-2xl bg-amber-50 dark:bg-amber-950 text-amber-600 dark:text-amber-400 flex items-center justify-center mb-3 border border-amber-200 dark:border-amber-800">
-                <ClipboardList className="w-5 h-5" />
+          <Card3D maxTilt={12} scale={1.04} className="h-full">
+            <div className="bg-white dark:bg-slate-900 rounded-3xl p-5 border border-slate-200 dark:border-slate-800 hover:border-amber-300 hover:shadow-xl transition-all flex flex-col justify-between h-full group preserve-3d">
+              <div>
+                <div className="w-10 h-10 rounded-2xl bg-amber-50 dark:bg-amber-950 text-amber-600 dark:text-amber-400 flex items-center justify-center mb-3 border border-amber-200 dark:border-amber-800 translate-z-30 shadow-xs">
+                  <ClipboardList className="w-5 h-5" />
+                </div>
+                <span className="text-[10px] font-bold uppercase tracking-wider text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-950/60 px-2 py-0.5 rounded-full border border-amber-200 dark:border-amber-800 translate-z-20">
+                  Level 3 Front Desk
+                </span>
+                <h3 className="text-base font-bold text-slate-900 dark:text-white mt-2 group-hover:text-amber-600 transition-colors translate-z-20">
+                  Reception Desk
+                </h3>
+                <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 leading-relaxed translate-z-10">
+                  60-second walk-in intake, live OPD queue tokens, and fee receipts.
+                </p>
               </div>
-              <span className="text-[10px] font-bold uppercase tracking-wider text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-950/60 px-2 py-0.5 rounded-full border border-amber-200 dark:border-amber-800">
-                Level 3 Front Desk
-              </span>
-              <h3 className="text-base font-bold text-slate-900 dark:text-white mt-2 group-hover:text-amber-600 transition-colors">
-                Reception Desk
-              </h3>
-              <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">
-                60-second walk-in intake, live OPD queue tokens, and fee receipts.
-              </p>
+              <button
+                onClick={() => launchPortal('RECEPTIONIST', '/reception')}
+                className="mt-5 w-full py-2.5 rounded-xl bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold shadow-xs transition-colors flex items-center justify-center space-x-1 cursor-pointer translate-z-30"
+              >
+                <span>Launch Reception</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </button>
             </div>
-            <button
-              onClick={() => launchPortal('RECEPTIONIST', '/reception')}
-              className="mt-5 w-full py-2.5 rounded-xl bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold shadow-xs transition-colors flex items-center justify-center space-x-1 cursor-pointer"
-            >
-              <span>Launch Reception</span>
-              <ArrowRight className="w-3.5 h-3.5" />
-            </button>
-          </div>
+          </Card3D>
 
           {/* Patient Portal */}
-          <div className="bg-white dark:bg-slate-900 rounded-3xl p-5 border border-slate-200 dark:border-slate-800 hover:border-emerald-300 hover:shadow-xl transition-all flex flex-col justify-between group">
-            <div>
-              <div className="w-10 h-10 rounded-2xl bg-emerald-50 dark:bg-emerald-950 text-emerald-600 dark:text-emerald-400 flex items-center justify-center mb-3 border border-emerald-200 dark:border-emerald-800">
-                <User className="w-5 h-5" />
+          <Card3D maxTilt={12} scale={1.04} className="h-full">
+            <div className="bg-white dark:bg-slate-900 rounded-3xl p-5 border border-slate-200 dark:border-slate-800 hover:border-emerald-300 hover:shadow-xl transition-all flex flex-col justify-between h-full group preserve-3d">
+              <div>
+                <div className="w-10 h-10 rounded-2xl bg-emerald-50 dark:bg-emerald-950 text-emerald-600 dark:text-emerald-400 flex items-center justify-center mb-3 border border-emerald-200 dark:border-emerald-800 translate-z-30 shadow-xs">
+                  <User className="w-5 h-5" />
+                </div>
+                <span className="text-[10px] font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/60 px-2 py-0.5 rounded-full border border-emerald-200 dark:border-emerald-800 translate-z-20">
+                  Level 4 Sovereign
+                </span>
+                <h3 className="text-base font-bold text-slate-900 dark:text-white mt-2 group-hover:text-emerald-600 transition-colors translate-z-20">
+                  Patient Locker
+                </h3>
+                <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 leading-relaxed translate-z-10">
+                  Permanent health timeline, AI report explainer, and slot booking.
+                </p>
               </div>
-              <span className="text-[10px] font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/60 px-2 py-0.5 rounded-full border border-emerald-200 dark:border-emerald-800">
-                Level 4 Sovereign
-              </span>
-              <h3 className="text-base font-bold text-slate-900 dark:text-white mt-2 group-hover:text-emerald-600 transition-colors">
-                Patient Locker
-              </h3>
-              <p className="text-xs text-slate-500 dark:text-slate-400 mt-1 leading-relaxed">
-                Permanent health timeline, AI report explainer, and slot booking.
-              </p>
+              <button
+                onClick={() => launchPortal('PATIENT', '/patient')}
+                className="mt-5 w-full py-2.5 rounded-xl btn-3d-primary text-white text-xs font-bold transition-all flex items-center justify-center space-x-1 cursor-pointer translate-z-30"
+              >
+                <span>Launch Patient Locker</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </button>
             </div>
-            <button
-              onClick={() => launchPortal('PATIENT', '/patient')}
-              className="mt-5 w-full py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold shadow-xs transition-colors flex items-center justify-center space-x-1 cursor-pointer"
-            >
-              <span>Launch Patient Locker</span>
-              <ArrowRight className="w-3.5 h-3.5" />
-            </button>
-          </div>
+          </Card3D>
 
         </div>
       </section>

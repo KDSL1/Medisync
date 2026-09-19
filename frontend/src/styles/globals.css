@@ -126,3 +126,175 @@
 .gradient-border-brand {
   border-image: linear-gradient(to right, #0ea5e9, #14b8a6) 1;
 }
+
+/* ==========================================================================
+   ADVANCED 3D UI SYSTEM
+   ========================================================================== */
+
+/* 3D Perspective Context */
+.perspective-1000 {
+  perspective: 1000px;
+  -webkit-perspective: 1000px;
+}
+.perspective-2000 {
+  perspective: 2000px;
+  -webkit-perspective: 2000px;
+}
+
+/* 3D Transform Styles */
+.preserve-3d {
+  transform-style: preserve-3d;
+  -webkit-transform-style: preserve-3d;
+}
+.backface-hidden {
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+/* 3D Layer Elevation (translateZ) */
+.translate-z-10 {
+  transform: translateZ(10px);
+}
+.translate-z-20 {
+  transform: translateZ(20px);
+}
+.translate-z-30 {
+  transform: translateZ(30px);
+}
+.translate-z-40 {
+  transform: translateZ(40px);
+}
+.translate-z-50 {
+  transform: translateZ(50px);
+}
+.translate-z-60 {
+  transform: translateZ(60px);
+}
+.translate-z-70 {
+  transform: translateZ(70px);
+}
+
+/* 3D Card Interactive Base */
+.card-3d-wrapper {
+  position: relative;
+  transition: transform 0.15s cubic-bezier(0.2, 0, 0, 1), box-shadow 0.2s ease;
+  will-change: transform;
+}
+
+.card-3d-glare {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(255, 255, 255, 0.15) 0%, transparent 65%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 20;
+}
+.dark .card-3d-glare {
+  background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(255, 255, 255, 0.08) 0%, transparent 60%);
+}
+
+.card-3d-wrapper:hover .card-3d-glare {
+  opacity: 1;
+}
+
+/* 3D Tactile Buttons */
+.btn-3d-primary {
+  position: relative;
+  background: linear-gradient(135deg, #0284c7 0%, #0ea5e9 50%, #14b8a6 100%);
+  box-shadow: 0 4px 0 #0369a1, 0 10px 20px -5px rgba(14, 165, 233, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+  transition: all 0.12s ease;
+}
+.btn-3d-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 0 #0369a1, 0 14px 24px -6px rgba(14, 165, 233, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.35);
+}
+.btn-3d-primary:active {
+  transform: translateY(2px);
+  box-shadow: 0 2px 0 #0369a1, 0 4px 10px -3px rgba(14, 165, 233, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.btn-3d-dark {
+  position: relative;
+  background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+  box-shadow: 0 4px 0 #020617, 0 10px 20px -5px rgba(15, 23, 42, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+  transition: all 0.12s ease;
+}
+.btn-3d-dark:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 0 #020617, 0 14px 24px -6px rgba(15, 23, 42, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+.btn-3d-dark:active {
+  transform: translateY(2px);
+  box-shadow: 0 2px 0 #020617, 0 4px 10px -3px rgba(15, 23, 42, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.btn-3d-white {
+  position: relative;
+  background: #ffffff;
+  color: #0f172a;
+  box-shadow: 0 4px 0 #cbd5e1, 0 10px 20px -5px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 1);
+  transition: all 0.12s ease;
+}
+.btn-3d-white:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 0 #cbd5e1, 0 14px 24px -6px rgba(0, 0, 0, 0.12), inset 0 1px 0 rgba(255, 255, 255, 1);
+}
+.btn-3d-white:active {
+  transform: translateY(2px);
+  box-shadow: 0 2px 0 #cbd5e1, 0 4px 10px -3px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+}
+
+/* 3D Floating Animations */
+@keyframes float-3d-slow {
+  0%, 100% {
+    transform: translateY(0px) rotateX(0deg) rotateY(0deg);
+  }
+  50% {
+    transform: translateY(-8px) rotateX(2deg) rotateY(-2deg);
+  }
+}
+
+@keyframes float-3d-reverse {
+  0%, 100% {
+    transform: translateY(0px) rotateX(0deg) rotateY(0deg);
+  }
+  50% {
+    transform: translateY(8px) rotateX(-2deg) rotateY(2deg);
+  }
+}
+
+@keyframes pulse-ring-3d {
+  0% {
+    transform: scale(0.95);
+    opacity: 0.8;
+  }
+  50% {
+    transform: scale(1.08);
+    opacity: 0.3;
+  }
+  100% {
+    transform: scale(0.95);
+    opacity: 0.8;
+  }
+}
+
+.animate-float-3d {
+  animation: float-3d-slow 6s ease-in-out infinite;
+}
+.animate-float-3d-delayed {
+  animation: float-3d-reverse 7s ease-in-out infinite;
+  animation-delay: -3s;
+}
+.animate-pulse-ring-3d {
+  animation: pulse-ring-3d 3s ease-in-out infinite;
+}
+
+/* 3D Hologram Glow */
+.hologram-glow {
+  box-shadow: 0 0 35px -5px rgba(14, 165, 233, 0.35), inset 0 0 15px rgba(14, 165, 233, 0.2);
+}
+.dark .hologram-glow {
+  box-shadow: 0 0 40px -5px rgba(14, 165, 233, 0.45), inset 0 0 20px rgba(14, 165, 233, 0.25);
+}
