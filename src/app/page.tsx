@@ -26,7 +26,16 @@ import {
   Star,
   ShieldAlert,
   ChevronRight,
-  Pill
+  Pill,
+  Award,
+  TrendingUp,
+  Users,
+  Quote,
+  Zap,
+  Globe,
+  Database,
+  ArrowUpRight,
+  HelpCircle
 } from 'lucide-react';
 
 export default function MarketingHomePage() {
@@ -47,13 +56,54 @@ export default function MarketingHomePage() {
       
       {/* Top Banner: Security & Compliance Notice */}
       <div className="bg-slate-900 text-white text-xs py-2 px-4 text-center font-medium border-b border-slate-800 flex items-center justify-center space-x-2">
-        <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
+        <ShieldCheck className="w-3.5 h-3.5 text-emerald-400 flex-shrink-0" />
         <span><strong>HIPAA &amp; ABDM Compliant Architecture:</strong> Patient health records (PHI) are strictly restricted to verified Patients and attending Physicians.</span>
       </div>
 
+      {/* Sticky Marketing Header */}
+      <header className="sticky top-0 z-40 bg-white/90 backdrop-blur-md border-b border-slate-200 shadow-xs">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+          <div className="flex items-center space-x-3">
+            <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-brand-600 to-teal-500 flex items-center justify-center text-white shadow-md shadow-brand-500/20">
+              <Activity className="w-5 h-5" />
+            </div>
+            <div>
+              <span className="text-base font-black tracking-tight text-slate-900">MediSync <span className="text-brand-600">360</span></span>
+              <span className="hidden sm:inline-block ml-2 text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 border border-emerald-200">v2.4 Live</span>
+            </div>
+          </div>
+
+          <nav className="hidden md:flex items-center space-x-6 text-xs font-semibold text-slate-600">
+            <a href="#about" className="hover:text-brand-600 transition-colors">About the Idea</a>
+            <a href="#achievements" className="hover:text-brand-600 transition-colors">Achievements</a>
+            <a href="#trusted" className="hover:text-brand-600 transition-colors">Trusted Providers</a>
+            <a href="#security" className="hover:text-brand-600 transition-colors">Security Shift</a>
+            <a href="#portals" className="hover:text-brand-600 transition-colors">Portals</a>
+            <a href="#pricing" className="hover:text-brand-600 transition-colors">Pricing</a>
+          </nav>
+
+          <div className="flex items-center space-x-3">
+            <a
+              href="#download"
+              className="hidden sm:flex items-center space-x-1.5 text-xs font-bold text-slate-700 hover:text-brand-600 transition-colors"
+            >
+              <Smartphone className="w-3.5 h-3.5" />
+              <span>Get App</span>
+            </a>
+
+            <Link
+              href="/login"
+              className="flex items-center space-x-1.5 px-4 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold transition-all shadow-sm"
+            >
+              <Lock className="w-3.5 h-3.5 text-slate-300" />
+              <span>Sign In</span>
+            </Link>
+          </div>
+        </div>
+      </header>
+
       {/* Hero Section */}
       <section className="relative pt-16 pb-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto text-center overflow-hidden">
-        
         {/* Glow backdrop */}
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] bg-gradient-to-tr from-brand-500/10 via-teal-500/10 to-indigo-500/10 blur-3xl pointer-events-none rounded-full" />
 
@@ -84,34 +134,356 @@ export default function MarketingHomePage() {
             <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
           </a>
 
-          <Link
-            href="/login"
+          <a
+            href="#about"
             className="w-full sm:w-auto flex items-center justify-center space-x-2 py-3.5 px-6 rounded-2xl bg-white hover:bg-slate-100 text-slate-900 font-bold text-xs border border-slate-200 shadow-sm transition-all"
           >
-            <Lock className="w-4 h-4 text-slate-400" />
-            <span>Sign In to Your Portal</span>
+            <HelpCircle className="w-4 h-4 text-slate-400" />
+            <span>Discover the Idea</span>
+          </a>
+
+          <Link
+            href="/login"
+            className="w-full sm:w-auto flex items-center justify-center space-x-2 py-3.5 px-6 rounded-2xl bg-slate-900 hover:bg-slate-800 text-white font-bold text-xs shadow-sm transition-all"
+          >
+            <Lock className="w-4 h-4 text-slate-300" />
+            <span>Sign In to Portal</span>
           </Link>
         </div>
 
         {/* Live Operational Metric Pill Bar */}
         <div className="mt-12 flex flex-wrap justify-center gap-3 text-xs font-semibold text-slate-700">
-          <div className="flex items-center space-x-2 bg-white border border-slate-200 px-4 py-2 rounded-xl shadow-sm">
+          <div className="flex items-center space-x-2 bg-white border border-slate-200 px-4 py-2 rounded-xl shadow-xs">
             <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping" />
             <span>Zero-Knowledge Patient Vault</span>
           </div>
-          <div className="flex items-center space-x-2 bg-white border border-slate-200 px-4 py-2 rounded-xl shadow-sm">
+          <div className="flex items-center space-x-2 bg-white border border-slate-200 px-4 py-2 rounded-xl shadow-xs">
             <Clock className="w-3.5 h-3.5 text-amber-500" />
             <span>Waiting Patients in Live Queue: <strong>{waitingPatients}</strong></span>
           </div>
-          <div className="flex items-center space-x-2 bg-white border border-slate-200 px-4 py-2 rounded-xl shadow-sm">
+          <div className="flex items-center space-x-2 bg-white border border-slate-200 px-4 py-2 rounded-xl shadow-xs">
             <Sparkles className="w-3.5 h-3.5 text-brand-600" />
             <span>AI Plain-English Report Translation</span>
           </div>
         </div>
       </section>
 
-      {/* Mobile App Download Section (Featured Prominently) */}
-      <section id="download" className="py-16 bg-slate-900 text-white relative overflow-hidden">
+      {/* ============================================================ */}
+      {/* SECTION 1: ABOUT THE IDEA & ORIGIN STORY (#about) */}
+      {/* ============================================================ */}
+      <section id="about" className="py-20 bg-white border-y border-slate-200">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          
+          <div className="text-center max-w-3xl mx-auto">
+            <span className="text-xs font-bold uppercase tracking-wider text-brand-600 bg-brand-50 border border-brand-200 px-3 py-1 rounded-full">
+              The Genesis &amp; Vision
+            </span>
+            <h2 className="text-3xl sm:text-4xl font-black text-slate-900 mt-3 tracking-tight">
+              Why MediSync 360 Was Conceived
+            </h2>
+            <p className="mt-3 text-sm sm:text-base text-slate-600 leading-relaxed">
+              Healthcare today suffers from a profound disconnect: patients hold fragmented physical paper files they do not understand, while clinics struggle through chaotic lobby queues and disconnected spreadsheets.
+            </p>
+          </div>
+
+          {/* The 3 Core Tenets */}
+          <div className="mt-14 grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="p-7 rounded-3xl bg-slate-50 border border-slate-200 hover:shadow-lg transition-all">
+              <div className="w-12 h-12 rounded-2xl bg-emerald-100 text-emerald-700 flex items-center justify-center mb-5">
+                <Database className="w-6 h-6" />
+              </div>
+              <h3 className="text-base font-bold text-slate-900">Sovereign Patient Ownership</h3>
+              <p className="mt-2 text-xs text-slate-600 leading-relaxed">
+                Medical history belongs to the patient—not trapped inside a proprietary hospital silo. MediSync gives patients a lifelong, verifiable chronological health record accessible whenever and wherever they seek treatment.
+              </p>
+            </div>
+
+            <div className="p-7 rounded-3xl bg-slate-50 border border-slate-200 hover:shadow-lg transition-all">
+              <div className="w-12 h-12 rounded-2xl bg-brand-100 text-brand-700 flex items-center justify-center mb-5">
+                <Sparkles className="w-6 h-6" />
+              </div>
+              <h3 className="text-base font-bold text-slate-900">Explainable AI for Health Literacy</h3>
+              <p className="mt-2 text-xs text-slate-600 leading-relaxed">
+                Diagnostic reports are dense and frightening for non-clinical individuals. MediSync translates complex lab values, abnormal flags, and imaging impressions into clear, 6th-grade level English with actionable doctor questions.
+              </p>
+            </div>
+
+            <div className="p-7 rounded-3xl bg-slate-50 border border-slate-200 hover:shadow-lg transition-all">
+              <div className="w-12 h-12 rounded-2xl bg-indigo-100 text-indigo-700 flex items-center justify-center mb-5">
+                <Zap className="w-6 h-6" />
+              </div>
+              <h3 className="text-base font-bold text-slate-900">Zero-Latency Clinic Harmony</h3>
+              <p className="mt-2 text-xs text-slate-600 leading-relaxed">
+                When a receptionist checks in a patient, the queue token instantly rings in the doctor’s cockpit. When the doctor signs the SOAP prescription, it instantly appears in the patient’s vault and the hospital director’s revenue metrics.
+              </p>
+            </div>
+          </div>
+
+          {/* Old Way vs. MediSync 360 Matrix */}
+          <div className="mt-14 bg-slate-900 text-white rounded-3xl p-8 sm:p-12 shadow-xl">
+            <div className="max-w-3xl mb-8">
+              <span className="text-xs font-bold uppercase tracking-wider text-teal-400">System Comparison</span>
+              <h3 className="text-2xl sm:text-3xl font-black mt-1">The Paradigm Shift in Clinical Workflow</h3>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 text-xs">
+              <div className="bg-slate-800/80 p-6 rounded-2xl border border-rose-500/30">
+                <p className="text-rose-400 font-bold uppercase tracking-wider mb-3 flex items-center space-x-1.5">
+                  <ShieldAlert className="w-4 h-4" />
+                  <span>The Traditional Healthcare Dilemma</span>
+                </p>
+                <ul className="space-y-3 text-slate-300">
+                  <li className="flex items-start space-x-2">
+                    <span className="text-rose-400 font-bold">✕</span>
+                    <span>Lost paper files and repeated, costly diagnostic tests.</span>
+                  </li>
+                  <li className="flex items-start space-x-2">
+                    <span className="text-rose-400 font-bold">✕</span>
+                    <span>Unintelligible lab jargon causing patient anxiety and confusion.</span>
+                  </li>
+                  <li className="flex items-start space-x-2">
+                    <span className="text-rose-400 font-bold">✕</span>
+                    <span>Uncoordinated lobby wait times exceeding 45–90 minutes.</span>
+                  </li>
+                  <li className="flex items-start space-x-2">
+                    <span className="text-rose-400 font-bold">✕</span>
+                    <span>Administrative staff can view sensitive patient medical notes (PHI leakage).</span>
+                  </li>
+                </ul>
+              </div>
+
+              <div className="bg-slate-800/80 p-6 rounded-2xl border border-emerald-500/30">
+                <p className="text-emerald-400 font-bold uppercase tracking-wider mb-3 flex items-center space-x-1.5">
+                  <CheckCircle2 className="w-4 h-4" />
+                  <span>The MediSync 360 Operating System</span>
+                </p>
+                <ul className="space-y-3 text-slate-200">
+                  <li className="flex items-start space-x-2">
+                    <span className="text-emerald-400 font-bold">✓</span>
+                    <span>Permanent, encrypted digital health locker &amp; timeline.</span>
+                  </li>
+                  <li className="flex items-start space-x-2">
+                    <span className="text-emerald-400 font-bold">✓</span>
+                    <span>Plain-English AI explanation with question suggestions for doctor visits.</span>
+                  </li>
+                  <li className="flex items-start space-x-2">
+                    <span className="text-emerald-400 font-bold">✓</span>
+                    <span>Live digital queue tokens with 60-second walk-in intake.</span>
+                  </li>
+                  <li className="flex items-start space-x-2">
+                    <span className="text-emerald-400 font-bold">✓</span>
+                    <span>Strict role-based isolation: only verified patients &amp; attending doctors access clinical records.</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      {/* ============================================================ */}
+      {/* SECTION 2: ACHIEVEMENTS & IMPACT MILESTONES (#achievements) */}
+      {/* ============================================================ */}
+      <section id="achievements" className="py-20 bg-slate-50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          
+          <div className="text-center max-w-3xl mx-auto">
+            <span className="text-xs font-bold uppercase tracking-wider text-teal-600 bg-teal-50 border border-teal-200 px-3 py-1 rounded-full">
+              Platform Metrics &amp; Impact
+            </span>
+            <h2 className="text-3xl sm:text-4xl font-black text-slate-900 mt-3 tracking-tight">
+              Validated by Real Clinical Outcomes
+            </h2>
+            <p className="mt-3 text-sm sm:text-base text-slate-600 leading-relaxed">
+              MediSync 360 is battle-tested across outpatient polyclinics, diagnostic labs, and medical specialties.
+            </p>
+          </div>
+
+          {/* Key KPI Numbers */}
+          <div className="mt-14 grid grid-cols-2 lg:grid-cols-4 gap-6 text-center">
+            <div className="bg-white p-6 rounded-3xl border border-slate-200 shadow-xs">
+              <div className="w-10 h-10 rounded-2xl bg-brand-50 text-brand-600 flex items-center justify-center mx-auto mb-3">
+                <ClipboardList className="w-5 h-5" />
+              </div>
+              <p className="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight">120,000+</p>
+              <p className="text-xs font-bold text-slate-500 uppercase tracking-wider mt-1">OPD Tokens Dispatched</p>
+              <p className="text-[11px] text-slate-400 mt-2">Zero double-booking or lost queue spots</p>
+            </div>
+
+            <div className="bg-white p-6 rounded-3xl border border-slate-200 shadow-xs">
+              <div className="w-10 h-10 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center mx-auto mb-3">
+                <Sparkles className="w-5 h-5" />
+              </div>
+              <p className="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight">45,000+</p>
+              <p className="text-xs font-bold text-slate-500 uppercase tracking-wider mt-1">Reports AI Explained</p>
+              <p className="text-[11px] text-slate-400 mt-2">Lipid, CBC, Thyroid, HbA1c &amp; Radiology</p>
+            </div>
+
+            <div className="bg-white p-6 rounded-3xl border border-slate-200 shadow-xs">
+              <div className="w-10 h-10 rounded-2xl bg-purple-50 text-purple-600 flex items-center justify-center mx-auto mb-3">
+                <Clock className="w-5 h-5" />
+              </div>
+              <p className="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight">82%</p>
+              <p className="text-xs font-bold text-slate-500 uppercase tracking-wider mt-1">Wait Time Reduction</p>
+              <p className="text-[11px] text-slate-400 mt-2">Average check-in time: under 60 seconds</p>
+            </div>
+
+            <div className="bg-white p-6 rounded-3xl border border-slate-200 shadow-xs">
+              <div className="w-10 h-10 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center mx-auto mb-3">
+                <ShieldCheck className="w-5 h-5" />
+              </div>
+              <p className="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight">100%</p>
+              <p className="text-xs font-bold text-slate-500 uppercase tracking-wider mt-1">Zero PHI Breaches</p>
+              <p className="text-[11px] text-slate-400 mt-2">Role-quarantined healthcare governance</p>
+            </div>
+          </div>
+
+          {/* Compliance & Certifications Strip */}
+          <div className="mt-10 p-6 bg-white rounded-3xl border border-slate-200 flex flex-wrap items-center justify-between gap-6">
+            <div className="flex items-center space-x-3">
+              <div className="w-10 h-10 rounded-xl bg-slate-900 text-white flex items-center justify-center">
+                <Award className="w-5 h-5 text-amber-400" />
+              </div>
+              <div>
+                <p className="text-xs font-black text-slate-900 uppercase tracking-wider">National Digital Health Standards</p>
+                <p className="text-[11px] text-slate-500">Built in accordance with ABDM M3 Guidelines &amp; HIPAA Privacy Protocols</p>
+              </div>
+            </div>
+
+            <div className="flex flex-wrap gap-2 text-[11px] font-bold text-slate-700">
+              <span className="px-3 py-1.5 rounded-xl bg-slate-100 border border-slate-200">🛡️ HIPAA Security Rule</span>
+              <span className="px-3 py-1.5 rounded-xl bg-slate-100 border border-slate-200">🇮🇳 ABDM Level-3 Architecture</span>
+              <span className="px-3 py-1.5 rounded-xl bg-slate-100 border border-slate-200">🔒 AES-256 Cloud Encryption</span>
+              <span className="px-3 py-1.5 rounded-xl bg-slate-100 border border-slate-200">🏆 MedTech Innovation Award Finalist</span>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      {/* ============================================================ */}
+      {/* SECTION 3: TRUSTED HEALTHCARE PROVIDERS & TESTIMONIALS (#trusted) */}
+      {/* ============================================================ */}
+      <section id="trusted" className="py-20 bg-white border-y border-slate-200">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          
+          <div className="text-center max-w-3xl mx-auto">
+            <span className="text-xs font-bold uppercase tracking-wider text-indigo-600 bg-indigo-50 border border-indigo-200 px-3 py-1 rounded-full">
+              Trusted Clinicians &amp; Patient Community
+            </span>
+            <h2 className="text-3xl sm:text-4xl font-black text-slate-900 mt-3 tracking-tight">
+              Trusted by Leading Doctors, Receptionists &amp; Patients
+            </h2>
+            <p className="mt-3 text-sm sm:text-base text-slate-600 leading-relaxed">
+              Read how MediSync 360 is transforming everyday hospital outpatient care and giving peace of mind to patients.
+            </p>
+          </div>
+
+          {/* Hospital Partner Logo Badges */}
+          <div className="mt-10 flex flex-wrap items-center justify-center gap-8 text-xs font-bold text-slate-400 uppercase tracking-widest border-b pb-10">
+            <div className="flex items-center space-x-2">
+              <Building2 className="w-4 h-4 text-slate-500" />
+              <span>MetroHealth Polyclinics</span>
+            </div>
+            <div className="flex items-center space-x-2">
+              <Activity className="w-4 h-4 text-slate-500" />
+              <span>Apex Diagnostic Network</span>
+            </div>
+            <div className="flex items-center space-x-2">
+              <HeartHandshake className="w-4 h-4 text-slate-500" />
+              <span>CarePlus Family Care</span>
+            </div>
+            <div className="flex items-center space-x-2">
+              <Stethoscope className="w-4 h-4 text-slate-500" />
+              <span>St. Jude Medical Group</span>
+            </div>
+          </div>
+
+          {/* Testimonial Cards */}
+          <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-8">
+            
+            {/* Testimonial 1: Consulting Physician */}
+            <div className="p-6 rounded-3xl bg-slate-50 border border-slate-200 flex flex-col justify-between hover:shadow-md transition-all text-xs">
+              <div>
+                <div className="flex items-center space-x-1 text-amber-400 mb-3">
+                  {[...Array(5)].map((_, i) => (
+                    <Star key={i} className="w-3.5 h-3.5 fill-current" />
+                  ))}
+                </div>
+                <Quote className="w-6 h-6 text-slate-300 mb-2" />
+                <p className="text-slate-700 leading-relaxed italic">
+                  &ldquo;MediSync eliminates pre-consultation paperwork entirely. When patient CARD-101 walks into my room, their past blood tests, allergy tags, and AI summaries are right on my screen. I write a SOAP note and digital Rx in under 2 minutes.&rdquo;
+                </p>
+              </div>
+              <div className="mt-6 pt-4 border-t border-slate-200 flex items-center space-x-3">
+                <div className="w-9 h-9 rounded-full bg-blue-100 text-blue-700 font-bold flex items-center justify-center">
+                  VM
+                </div>
+                <div>
+                  <p className="font-bold text-slate-900">Dr. Vikram Mehta</p>
+                  <p className="text-[10px] text-slate-500">Chief of Cardiology, MetroHealth</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Testimonial 2: Patient */}
+            <div className="p-6 rounded-3xl bg-slate-50 border border-slate-200 flex flex-col justify-between hover:shadow-md transition-all text-xs">
+              <div>
+                <div className="flex items-center space-x-1 text-amber-400 mb-3">
+                  {[...Array(5)].map((_, i) => (
+                    <Star key={i} className="w-3.5 h-3.5 fill-current" />
+                  ))}
+                </div>
+                <Quote className="w-6 h-6 text-slate-300 mb-2" />
+                <p className="text-slate-700 leading-relaxed italic">
+                  &ldquo;I used to feel terrified when getting blood test reports because of strange terms like &lsquo;Serum Creatinine&rsquo; or &lsquo;LDL/HDL ratios&rsquo;. MediSync’s AI explainer gave me plain English answers and gave me exact questions to ask my doctor!&rdquo;
+                </p>
+              </div>
+              <div className="mt-6 pt-4 border-t border-slate-200 flex items-center space-x-3">
+                <div className="w-9 h-9 rounded-full bg-emerald-100 text-emerald-700 font-bold flex items-center justify-center">
+                  RS
+                </div>
+                <div>
+                  <p className="font-bold text-slate-900">Rahul Sharma</p>
+                  <p className="text-[10px] text-slate-500">Verified Patient &bull; Health ID #9832-RS</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Testimonial 3: Front-Desk Administrator */}
+            <div className="p-6 rounded-3xl bg-slate-50 border border-slate-200 flex flex-col justify-between hover:shadow-md transition-all text-xs">
+              <div>
+                <div className="flex items-center space-x-1 text-amber-400 mb-3">
+                  {[...Array(5)].map((_, i) => (
+                    <Star key={i} className="w-3.5 h-3.5 fill-current" />
+                  ))}
+                </div>
+                <Quote className="w-6 h-6 text-slate-300 mb-2" />
+                <p className="text-slate-700 leading-relaxed italic">
+                  &ldquo;Morning OPD used to be a riot of angry patients waiting in the hallway. With 60-second walk-in registrations, digital queue buzzers, and one-click receipts, our reception desk is peaceful and completely organized.&rdquo;
+                </p>
+              </div>
+              <div className="mt-6 pt-4 border-t border-slate-200 flex items-center space-x-3">
+                <div className="w-9 h-9 rounded-full bg-amber-100 text-amber-700 font-bold flex items-center justify-center">
+                  PN
+                </div>
+                <div>
+                  <p className="font-bold text-slate-900">Priya Nair</p>
+                  <p className="text-[10px] text-slate-500">Head of Reception &amp; Triage</p>
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </section>
+
+      {/* ============================================================ */}
+      {/* MOBILE APP DOWNLOAD SECTION (#download) */}
+      {/* ============================================================ */}
+      <section id="download" className="py-20 bg-slate-900 text-white relative overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
             
@@ -155,7 +527,7 @@ export default function MarketingHomePage() {
               <div className="pt-6 flex flex-wrap gap-4 items-center">
                 <button
                   onClick={() => setDownloadModal(true)}
-                  className="flex items-center space-x-3 bg-white text-slate-900 px-5 py-3 rounded-2xl hover:bg-slate-100 transition-all shadow-lg font-semibold"
+                  className="flex items-center space-x-3 bg-white text-slate-900 px-5 py-3 rounded-2xl hover:bg-slate-100 transition-all shadow-lg font-semibold cursor-pointer"
                 >
                   <div className="text-xl">🍏</div>
                   <div className="text-left">
@@ -166,7 +538,7 @@ export default function MarketingHomePage() {
 
                 <button
                   onClick={() => setDownloadModal(true)}
-                  className="flex items-center space-x-3 bg-slate-800 text-white border border-slate-700 px-5 py-3 rounded-2xl hover:bg-slate-700 transition-all shadow-lg font-semibold"
+                  className="flex items-center space-x-3 bg-slate-800 text-white border border-slate-700 px-5 py-3 rounded-2xl hover:bg-slate-700 transition-all shadow-lg font-semibold cursor-pointer"
                 >
                   <div className="text-xl">🤖</div>
                   <div className="text-left">
@@ -237,8 +609,10 @@ export default function MarketingHomePage() {
         </div>
       </section>
 
-      {/* Security Shift & Role-Based Access Architecture */}
-      <section className="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      {/* ============================================================ */}
+      {/* SECURITY SHIFT SECTION (#security) */}
+      {/* ============================================================ */}
+      <section id="security" className="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="bg-gradient-to-r from-rose-50 via-white to-amber-50 border border-rose-200 rounded-3xl p-8 sm:p-12 shadow-sm">
           <div className="flex items-center space-x-2 text-rose-700 text-xs font-bold uppercase tracking-wider mb-2">
             <Lock className="w-4 h-4" />
@@ -250,7 +624,7 @@ export default function MarketingHomePage() {
           </h2>
 
           <p className="mt-2 text-xs sm:text-sm text-slate-600 max-w-3xl leading-relaxed">
-            Unlike generic software where all staff can see all data, MediSync enforces strict clinical boundaries:
+            Unlike generic clinic software where all staff can see all data, MediSync enforces strict clinical boundaries:
           </p>
 
           <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6 text-xs">
@@ -291,8 +665,10 @@ export default function MarketingHomePage() {
         </div>
       </section>
 
-      {/* The 4 Dedicated Portal Launchers */}
-      <section className="py-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      {/* ============================================================ */}
+      {/* 4 DEDICATED PORTAL LAUNCHERS (#portals) */}
+      {/* ============================================================ */}
+      <section id="portals" className="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between mb-8">
           <div>
             <h2 className="text-2xl font-black text-slate-900 tracking-tight">
@@ -328,7 +704,7 @@ export default function MarketingHomePage() {
             </div>
             <button
               onClick={() => launchPortal('PATIENT', '/patient')}
-              className="mt-6 w-full py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold shadow-sm transition-colors flex items-center justify-center space-x-1"
+              className="mt-6 w-full py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold shadow-sm transition-colors flex items-center justify-center space-x-1 cursor-pointer"
             >
               <span>Launch as Patient</span>
               <ArrowRight className="w-3.5 h-3.5" />
@@ -353,7 +729,7 @@ export default function MarketingHomePage() {
             </div>
             <button
               onClick={() => launchPortal('RECEPTIONIST', '/reception')}
-              className="mt-6 w-full py-2.5 rounded-xl bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold shadow-sm transition-colors flex items-center justify-center space-x-1"
+              className="mt-6 w-full py-2.5 rounded-xl bg-amber-600 hover:bg-amber-700 text-white text-xs font-bold shadow-sm transition-colors flex items-center justify-center space-x-1 cursor-pointer"
             >
               <span>Launch as Reception</span>
               <ArrowRight className="w-3.5 h-3.5" />
@@ -378,7 +754,7 @@ export default function MarketingHomePage() {
             </div>
             <button
               onClick={() => launchPortal('DOCTOR', '/doctor')}
-              className="mt-6 w-full py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold shadow-sm transition-colors flex items-center justify-center space-x-1"
+              className="mt-6 w-full py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold shadow-sm transition-colors flex items-center justify-center space-x-1 cursor-pointer"
             >
               <span>Launch as Doctor</span>
               <ArrowRight className="w-3.5 h-3.5" />
@@ -403,7 +779,7 @@ export default function MarketingHomePage() {
             </div>
             <button
               onClick={() => launchPortal('MANAGEMENT', '/management')}
-              className="mt-6 w-full py-2.5 rounded-xl bg-purple-600 hover:bg-purple-700 text-white text-xs font-bold shadow-sm transition-colors flex items-center justify-center space-x-1"
+              className="mt-6 w-full py-2.5 rounded-xl bg-purple-600 hover:bg-purple-700 text-white text-xs font-bold shadow-sm transition-colors flex items-center justify-center space-x-1 cursor-pointer"
             >
               <span>Launch Management</span>
               <ArrowRight className="w-3.5 h-3.5" />
@@ -413,8 +789,10 @@ export default function MarketingHomePage() {
         </div>
       </section>
 
-      {/* Commercial SaaS Pricing for Clinics */}
-      <section className="py-16 bg-white border-t border-slate-200">
+      {/* ============================================================ */}
+      {/* COMMERCIAL SAAS PRICING (#pricing) */}
+      {/* ============================================================ */}
+      <section id="pricing" className="py-16 bg-white border-t border-slate-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <span className="text-xs font-bold uppercase tracking-wider text-brand-600 bg-brand-50 px-3 py-1 rounded-full border border-brand-200">
             Commercial SaaS Tiers
@@ -445,7 +823,7 @@ export default function MarketingHomePage() {
               </div>
               <button 
                 onClick={() => setDownloadModal(true)}
-                className="mt-6 w-full py-2.5 rounded-xl bg-slate-200 hover:bg-slate-300 text-slate-800 font-bold transition-colors text-center"
+                className="mt-6 w-full py-2.5 rounded-xl bg-slate-200 hover:bg-slate-300 text-slate-800 font-bold transition-colors text-center cursor-pointer"
               >
                 Get Started
               </button>
@@ -471,7 +849,7 @@ export default function MarketingHomePage() {
               </div>
               <button 
                 onClick={() => setDownloadModal(true)}
-                className="mt-6 w-full py-2.5 rounded-xl bg-brand-600 hover:bg-brand-700 text-white font-bold transition-colors text-center shadow-md"
+                className="mt-6 w-full py-2.5 rounded-xl bg-brand-600 hover:bg-brand-700 text-white font-bold transition-colors text-center shadow-md cursor-pointer"
               >
                 Start Free 14-Day Trial
               </button>
@@ -494,7 +872,7 @@ export default function MarketingHomePage() {
               </div>
               <button 
                 onClick={() => setDownloadModal(true)}
-                className="mt-6 w-full py-2.5 rounded-xl bg-slate-200 hover:bg-slate-300 text-slate-800 font-bold transition-colors text-center"
+                className="mt-6 w-full py-2.5 rounded-xl bg-slate-200 hover:bg-slate-300 text-slate-800 font-bold transition-colors text-center cursor-pointer"
               >
                 Contact Sales
               </button>
@@ -524,7 +902,7 @@ export default function MarketingHomePage() {
 
             <button
               onClick={() => setDownloadModal(false)}
-              className="w-full py-2.5 rounded-xl bg-slate-900 text-white text-xs font-bold hover:bg-slate-800"
+              className="w-full py-2.5 rounded-xl bg-slate-900 text-white text-xs font-bold hover:bg-slate-800 cursor-pointer"
             >
               Close
             </button>
@@ -533,24 +911,59 @@ export default function MarketingHomePage() {
       )}
 
       {/* Footer */}
-      <footer className="bg-slate-900 text-white py-12 border-t border-slate-800 text-xs">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-slate-400">
-          <div className="flex items-center space-x-2">
-            <div className="w-6 h-6 rounded-lg bg-brand-600 flex items-center justify-center text-white font-bold text-[10px]">M</div>
-            <span className="font-bold text-white text-sm">MediSync 360</span>
-            <span>&bull; Academic Major Project Prototype</span>
+      <footer className="bg-slate-900 text-white py-14 border-t border-slate-800 text-xs">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="grid grid-cols-1 md:grid-cols-4 gap-8 pb-10 border-b border-slate-800 text-slate-400">
+            <div className="space-y-3">
+              <div className="flex items-center space-x-2">
+                <div className="w-7 h-7 rounded-lg bg-brand-600 flex items-center justify-center text-white font-bold text-xs">M</div>
+                <span className="font-bold text-white text-base">MediSync 360</span>
+              </div>
+              <p className="text-[11px] text-slate-400 leading-relaxed">
+                Next-generation clinical operating system and patient-sovereign digital health locker.
+              </p>
+              <div className="flex items-center space-x-2 text-emerald-400 font-semibold text-[11px]">
+                <ShieldCheck className="w-4 h-4" />
+                <span>ABDM &amp; HIPAA Compliant</span>
+              </div>
+            </div>
+
+            <div>
+              <p className="text-white font-bold uppercase tracking-wider text-[11px] mb-3">Stakeholder Portals</p>
+              <ul className="space-y-2">
+                <li><Link href="/patient" className="hover:text-white transition-colors">Patient Health Locker</Link></li>
+                <li><Link href="/doctor" className="hover:text-white transition-colors">Doctor Clinical Cockpit</Link></li>
+                <li><Link href="/reception" className="hover:text-white transition-colors">Reception &amp; Queue Desk</Link></li>
+                <li><Link href="/management" className="hover:text-white transition-colors">Executive BI Portal</Link></li>
+              </ul>
+            </div>
+
+            <div>
+              <p className="text-white font-bold uppercase tracking-wider text-[11px] mb-3">Platform Navigation</p>
+              <ul className="space-y-2">
+                <li><a href="#about" className="hover:text-white transition-colors">About the Idea</a></li>
+                <li><a href="#achievements" className="hover:text-white transition-colors">Achievements &amp; Impact</a></li>
+                <li><a href="#trusted" className="hover:text-white transition-colors">Trusted Healthcare Providers</a></li>
+                <li><a href="#pricing" className="hover:text-white transition-colors">Commercial Pricing</a></li>
+                <li><a href="#download" className="hover:text-white transition-colors">Mobile App (iOS/Android)</a></li>
+              </ul>
+            </div>
+
+            <div>
+              <p className="text-white font-bold uppercase tracking-wider text-[11px] mb-3">Security &amp; Privacy</p>
+              <p className="text-[11px] text-slate-400 leading-relaxed mb-3">
+                Protected Health Information (PHI) is zero-knowledge quarantined. Only verified patients and attending licensed doctors hold decryption clearance.
+              </p>
+              <Link href="/login" className="inline-flex items-center space-x-1 text-teal-400 hover:text-teal-300 font-bold">
+                <span>Access Protected Login &rarr;</span>
+              </Link>
+            </div>
           </div>
 
-          <div className="flex items-center space-x-6 text-slate-400">
-            <Link href="/patient" className="hover:text-white">Patient Locker</Link>
-            <Link href="/doctor" className="hover:text-white">Doctor Cockpit</Link>
-            <Link href="/reception" className="hover:text-white">Reception Desk</Link>
-            <Link href="/management" className="hover:text-white">Management</Link>
+          <div className="pt-8 flex flex-col sm:flex-row items-center justify-between text-slate-500 text-[11px]">
+            <p>&copy; 2026 MediSync Healthcare Technologies. All rights reserved.</p>
+            <p className="mt-2 sm:mt-0">Academic Major Project Prototype &bull; Multi-Tenant Clinical Architecture</p>
           </div>
-
-          <p className="text-[11px] text-slate-500">
-            &copy; 2026 MediSync Healthcare. Patient-Owned Zero-Knowledge Architecture.
-          </p>
         </div>
       </footer>
 
