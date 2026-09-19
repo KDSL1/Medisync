@@ -60,47 +60,6 @@ export default function MarketingHomePage() {
         <span><strong>HIPAA &amp; ABDM Compliant Architecture:</strong> Patient health records (PHI) are strictly restricted to verified Patients and attending Physicians.</span>
       </div>
 
-      {/* Sticky Marketing Header */}
-      <header className="sticky top-0 z-40 bg-white/90 backdrop-blur-md border-b border-slate-200 shadow-xs">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-          <div className="flex items-center space-x-3">
-            <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-brand-600 to-teal-500 flex items-center justify-center text-white shadow-md shadow-brand-500/20">
-              <Activity className="w-5 h-5" />
-            </div>
-            <div>
-              <span className="text-base font-black tracking-tight text-slate-900">MediSync <span className="text-brand-600">360</span></span>
-              <span className="hidden sm:inline-block ml-2 text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded bg-emerald-50 text-emerald-700 border border-emerald-200">v2.4 Live</span>
-            </div>
-          </div>
-
-          <nav className="hidden md:flex items-center space-x-6 text-xs font-semibold text-slate-600">
-            <a href="#about" className="hover:text-brand-600 transition-colors">About the Idea</a>
-            <a href="#achievements" className="hover:text-brand-600 transition-colors">Achievements</a>
-            <a href="#trusted" className="hover:text-brand-600 transition-colors">Trusted Providers</a>
-            <a href="#security" className="hover:text-brand-600 transition-colors">Security Shift</a>
-            <a href="#portals" className="hover:text-brand-600 transition-colors">Portals</a>
-            <a href="#pricing" className="hover:text-brand-600 transition-colors">Pricing</a>
-          </nav>
-
-          <div className="flex items-center space-x-3">
-            <a
-              href="#download"
-              className="hidden sm:flex items-center space-x-1.5 text-xs font-bold text-slate-700 hover:text-brand-600 transition-colors"
-            >
-              <Smartphone className="w-3.5 h-3.5" />
-              <span>Get App</span>
-            </a>
-
-            <Link
-              href="/login"
-              className="flex items-center space-x-1.5 px-4 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-white text-xs font-bold transition-all shadow-sm"
-            >
-              <Lock className="w-3.5 h-3.5 text-slate-300" />
-              <span>Sign In</span>
-            </Link>
-          </div>
-        </div>
-      </header>
 
       {/* Hero Section */}
       <section className="relative pt-16 pb-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto text-center overflow-hidden">
