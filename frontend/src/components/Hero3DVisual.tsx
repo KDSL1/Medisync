@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useRef, useState, useCallback } from 'react';
+import dynamic from 'next/dynamic';
 import { 
   Activity, 
   Sparkles, 
@@ -10,13 +11,19 @@ import {
   Heart,
   TrendingUp,
   FileText,
-  User
+  User,
+  Layers,
+  Dna
 } from 'lucide-react';
+
+// Dynamic import for WebGL Three.js component to prevent SSR hydration mismatches
+const MedicalDNA3D = dynamic(() => import('./MedicalDNA3D'), { ssr: false });
 
 export default function Hero3DVisual() {
   const containerRef = useRef<HTMLDivElement>(null);
-  const [rotation, setRotation] = useState({ x: 8, y: -12 });
+  const [rotation, setRotation] = useState({ x: 6, y: -8 });
   const [isHovered, setIsHovered] = useState(false);
+  const [activeTab, setActiveTab] = useState<'3D_TELEMETRY' | 'OPD_QUEUE'>('3D_TELEMETRY');
 
   const handleMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
     if (!containerRef.current) return;
@@ -31,8 +38,8 @@ export default function Hero3DVisual() {
     const yRatio = (mouseY - height / 2) / (height / 2);
 
     // Limit tilt to smooth range
-    const rotX = -yRatio * 14;
-    const rotY = xRatio * 18;
+    const rotX = -yRatio * 10;
+    const rotY = xRatio * 14;
 
     setRotation({ x: rotX, y: rotY });
   }, []);
@@ -42,19 +49,19 @@ export default function Hero3DVisual() {
   const handleMouseLeave = useCallback(() => {
     setIsHovered(false);
     // Return to a gentle default perspective tilt
-    setRotation({ x: 6, y: -8 });
+    setRotation({ x: 5, y: -6 });
   }, []);
 
   return (
     <div 
-      className="relative w-full max-w-4xl mx-auto mt-12 mb-8 perspective-2000 py-6 select-none"
+      className="relative w-full max-w-5xl mx-auto mt-10 mb-8 perspective-2000 py-6 select-none"
       ref={containerRef}
       onMouseMove={handleMouseMove}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
       {/* Background Ambient Radial Glow */}
-      <div className="absolute inset-0 bg-gradient-to-tr from-brand-500/20 via-teal-500/15 to-indigo-500/20 blur-3xl -z-10 rounded-full scale-90 animate-pulse-slow pointer-events-none" />
+      <div className="absolute inset-0 bg-gradient-to-tr from-brand-500/25 via-teal-500/20 to-indigo-500/25 blur-3xl -z-10 rounded-full scale-90 animate-pulse-slow pointer-events-none" />
 
       {/* Main 3D Container with Preserve-3D */}
       <div 
@@ -68,10 +75,10 @@ export default function Hero3DVisual() {
         {/* ----------------------------------------------------
             LAYER 0: Base Clinical Workstation Terminal Screen
            ---------------------------------------------------- */}
-        <div className="relative rounded-3xl bg-white/90 dark:bg-slate-900/90 border border-slate-200/80 dark:border-slate-800 shadow-2xl backdrop-blur-xl p-6 sm:p-8 overflow-hidden">
+        <div className="relative rounded-3xl bg-white/95 dark:bg-slate-900/95 border border-slate-200/90 dark:border-slate-800 shadow-2xl backdrop-blur-2xl p-6 sm:p-8 overflow-hidden">
           
           {/* Top Window Bar */}
-          <div className="flex items-center justify-between pb-5 border-b border-slate-100 dark:border-slate-800">
+          <div className="flex flex-col sm:flex-row items-center justify-between pb-5 border-b border-slate-100 dark:border-slate-800 gap-3">
             <div className="flex items-center space-x-2">
               <span className="w-3 h-3 rounded-full bg-rose-500 shadow-xs" />
               <span className="w-3 h-3 rounded-full bg-amber-500 shadow-xs" />
@@ -81,79 +88,120 @@ export default function Hero3DVisual() {
               </span>
             </div>
 
-            <div className="flex items-center space-x-3 text-xs">
-              <span className="inline-flex items-center space-x-1.5 px-2.5 py-1 rounded-full bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200 dark:border-emerald-800 text-emerald-700 dark:text-emerald-300 font-semibold">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-ping" />
-                <span>Live Clinic Telemetry</span>
-              </span>
+            {/* 3D View Switcher Tabs */}
+            <div className="flex items-center space-x-1.5 p-1 rounded-xl bg-slate-100 dark:bg-slate-800 text-xs">
+              <button
+                onClick={() => setActiveTab('3D_TELEMETRY')}
+                className={`px-3 py-1 rounded-lg font-semibold transition-all flex items-center space-x-1.5 ${
+                  activeTab === '3D_TELEMETRY'
+                    ? 'bg-white dark:bg-slate-900 text-brand-600 dark:text-brand-400 shadow-xs'
+                    : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
+                }`}
+              >
+                <Dna className="w-3.5 h-3.5" />
+                <span>3D Genomic Twin</span>
+              </button>
+              <button
+                onClick={() => setActiveTab('OPD_QUEUE')}
+                className={`px-3 py-1 rounded-lg font-semibold transition-all flex items-center space-x-1.5 ${
+                  activeTab === 'OPD_QUEUE'
+                    ? 'bg-white dark:bg-slate-900 text-brand-600 dark:text-brand-400 shadow-xs'
+                    : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
+                }`}
+              >
+                <Activity className="w-3.5 h-3.5" />
+                <span>OPD Queue Telemetry</span>
+              </button>
             </div>
           </div>
 
-          {/* Terminal Grid Preview */}
-          <div className="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-4">
+          {/* Interactive Dual-Panel Terminal Body */}
+          <div className="mt-6 grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
             
-            {/* Metric 1 */}
-            <div className="p-4 rounded-2xl bg-slate-50/80 dark:bg-slate-950/50 border border-slate-100 dark:border-slate-800">
-              <div className="flex items-center justify-between text-xs text-slate-500 dark:text-slate-400 font-medium">
-                <span>Today's OPD Footfall</span>
-                <TrendingUp className="w-4 h-4 text-brand-500" />
+            {/* Left 3D Panel: Metrics and Queue */}
+            <div className="lg:col-span-7 space-y-4">
+              
+              {/* Metric 3-Grid */}
+              <div className="grid grid-cols-3 gap-3">
+                
+                {/* Metric 1 */}
+                <div className="p-3.5 rounded-2xl bg-slate-50/90 dark:bg-slate-950/60 border border-slate-100 dark:border-slate-800">
+                  <div className="flex items-center justify-between text-[11px] text-slate-500 dark:text-slate-400 font-medium">
+                    <span>OPD Footfall</span>
+                    <TrendingUp className="w-3.5 h-3.5 text-brand-500" />
+                  </div>
+                  <div className="mt-1.5 text-xl font-black text-slate-900 dark:text-white">
+                    142
+                  </div>
+                  <div className="mt-0.5 text-[10px] text-emerald-600 font-semibold">
+                    +18% today
+                  </div>
+                </div>
+
+                {/* Metric 2 */}
+                <div className="p-3.5 rounded-2xl bg-slate-50/90 dark:bg-slate-950/60 border border-slate-100 dark:border-slate-800">
+                  <div className="flex items-center justify-between text-[11px] text-slate-500 dark:text-slate-400 font-medium">
+                    <span>Avg Triage</span>
+                    <Clock className="w-3.5 h-3.5 text-teal-500" />
+                  </div>
+                  <div className="mt-1.5 text-xl font-black text-slate-900 dark:text-white">
+                    4m 12s
+                  </div>
+                  <div className="mt-0.5 text-[10px] text-teal-600 dark:text-teal-400 font-semibold">
+                    Auto-Vitals
+                  </div>
+                </div>
+
+                {/* Metric 3 */}
+                <div className="p-3.5 rounded-2xl bg-slate-50/90 dark:bg-slate-950/60 border border-slate-100 dark:border-slate-800">
+                  <div className="flex items-center justify-between text-[11px] text-slate-500 dark:text-slate-400 font-medium">
+                    <span>ABDM Security</span>
+                    <ShieldCheck className="w-3.5 h-3.5 text-emerald-500" />
+                  </div>
+                  <div className="mt-1.5 text-xl font-black text-slate-900 dark:text-white">
+                    99.98%
+                  </div>
+                  <div className="mt-0.5 text-[10px] text-slate-400">
+                    M3 Encrypted
+                  </div>
+                </div>
+
               </div>
-              <div className="mt-2 text-2xl font-black text-slate-900 dark:text-white">
-                142 <span className="text-xs font-normal text-emerald-600">+18% vs avg</span>
+
+              {/* Sub-table Preview */}
+              <div className="rounded-2xl border border-slate-100 dark:border-slate-800/80 overflow-hidden text-xs shadow-xs">
+                <div className="bg-slate-50/90 dark:bg-slate-950/80 px-4 py-2.5 font-semibold text-slate-700 dark:text-slate-300 flex justify-between items-center border-b border-slate-100 dark:border-slate-800">
+                  <span className="flex items-center space-x-2">
+                    <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                    <span>Real-Time Triage Dispatch</span>
+                  </span>
+                  <span className="text-[11px] text-brand-600 dark:text-brand-400 font-mono">Live Sync</span>
+                </div>
+                <div className="divide-y divide-slate-100 dark:divide-slate-800/50 bg-white/60 dark:bg-slate-900/60">
+                  <div className="px-4 py-2.5 flex items-center justify-between text-slate-700 dark:text-slate-300">
+                    <span className="font-mono font-bold text-brand-600 dark:text-brand-400">#CARD-101</span>
+                    <span>Rahul Sharma &bull; 32M</span>
+                    <span className="px-2 py-0.5 rounded-full bg-amber-100 dark:bg-amber-950/80 text-amber-700 dark:text-amber-300 font-semibold text-[10px]">In Consultation</span>
+                  </div>
+                  <div className="px-4 py-2.5 flex items-center justify-between text-slate-700 dark:text-slate-300">
+                    <span className="font-mono font-bold text-slate-500">#CARD-102</span>
+                    <span>Priya Patel &bull; 28F</span>
+                    <span className="px-2 py-0.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 font-semibold text-[10px]">Next in Lobby</span>
+                  </div>
+                </div>
               </div>
-              <div className="mt-1 text-[11px] text-slate-400">
-                Across 8 Active Specialties
-              </div>
+
             </div>
 
-            {/* Metric 2 */}
-            <div className="p-4 rounded-2xl bg-slate-50/80 dark:bg-slate-950/50 border border-slate-100 dark:border-slate-800">
-              <div className="flex items-center justify-between text-xs text-slate-500 dark:text-slate-400 font-medium">
-                <span>Avg. Consultation Time</span>
-                <Clock className="w-4 h-4 text-teal-500" />
+            {/* Right 3D Panel: Interactive Three.js WebGL DNA Canvas */}
+            <div className="lg:col-span-5 relative rounded-2xl bg-gradient-to-b from-slate-900/90 via-slate-950 to-slate-900 border border-slate-800/80 p-2 overflow-hidden shadow-inner flex flex-col items-center justify-center min-h-[300px]">
+              <div className="absolute top-3 left-3 z-10 flex items-center space-x-1.5 px-2.5 py-1 rounded-full bg-slate-800/80 text-[10px] font-mono text-cyan-300 border border-cyan-500/30">
+                <Dna className="w-3 h-3 text-cyan-400 animate-spin" style={{ animationDuration: '10s' }} />
+                <span>3D Health Mesh &bull; Active</span>
               </div>
-              <div className="mt-2 text-2xl font-black text-slate-900 dark:text-white">
-                4m 12s
-              </div>
-              <div className="mt-1 text-[11px] text-teal-600 dark:text-teal-400 font-medium">
-                Optimized by Auto-Vitals
-              </div>
+              <MedicalDNA3D height="280px" className="w-full" />
             </div>
 
-            {/* Metric 3 */}
-            <div className="p-4 rounded-2xl bg-slate-50/80 dark:bg-slate-950/50 border border-slate-100 dark:border-slate-800">
-              <div className="flex items-center justify-between text-xs text-slate-500 dark:text-slate-400 font-medium">
-                <span>ABDM Gateway</span>
-                <ShieldCheck className="w-4 h-4 text-emerald-500" />
-              </div>
-              <div className="mt-2 text-2xl font-black text-slate-900 dark:text-white">
-                99.98%
-              </div>
-              <div className="mt-1 text-[11px] text-slate-400">
-                Encrypted Health Records
-              </div>
-            </div>
-
-          </div>
-
-          {/* Sub-table Preview */}
-          <div className="mt-6 rounded-xl border border-slate-100 dark:border-slate-800/80 overflow-hidden text-xs">
-            <div className="bg-slate-50/70 dark:bg-slate-950/70 px-4 py-2.5 font-semibold text-slate-600 dark:text-slate-300 flex justify-between items-center">
-              <span>Active OPD Queue &mdash; Station 01</span>
-              <span className="text-[11px] text-brand-600 dark:text-brand-400 font-mono">Token Dispatch: Real-time</span>
-            </div>
-            <div className="divide-y divide-slate-100 dark:divide-slate-800/50 bg-white/50 dark:bg-slate-900/50">
-              <div className="px-4 py-2.5 flex items-center justify-between text-slate-700 dark:text-slate-300">
-                <span className="font-mono font-bold text-brand-600 dark:text-brand-400">#CARD-101</span>
-                <span>Rahul Sharma &bull; 32M</span>
-                <span className="px-2 py-0.5 rounded-full bg-amber-100 dark:bg-amber-950/80 text-amber-700 dark:text-amber-300 font-semibold text-[10px]">In Consultation</span>
-              </div>
-              <div className="px-4 py-2.5 flex items-center justify-between text-slate-700 dark:text-slate-300">
-                <span className="font-mono font-bold text-slate-500">#CARD-102</span>
-                <span>Priya Patel &bull; 28F</span>
-                <span className="px-2 py-0.5 rounded-full bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 font-semibold text-[10px]">Next in Lobby</span>
-              </div>
-            </div>
           </div>
 
         </div>

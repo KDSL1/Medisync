@@ -286,41 +286,49 @@ export default function HomePage() {
 
           {/* Key KPI Numbers */}
           <div className="mt-14 grid grid-cols-2 lg:grid-cols-4 gap-6 text-center">
-            <div className="bg-white dark:bg-slate-900 p-6 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-xs">
-              <div className="w-10 h-10 rounded-2xl bg-brand-50 dark:bg-brand-950 text-brand-600 dark:text-brand-400 flex items-center justify-center mx-auto mb-3 border border-brand-200 dark:border-brand-800">
-                <ClipboardList className="w-5 h-5" />
+            <Card3D maxTilt={10} scale={1.03} className="h-full">
+              <div className="bg-white dark:bg-slate-900 p-6 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-xs h-full preserve-3d">
+                <div className="w-10 h-10 rounded-2xl bg-brand-50 dark:bg-brand-950 text-brand-600 dark:text-brand-400 flex items-center justify-center mx-auto mb-3 border border-brand-200 dark:border-brand-800 translate-z-20 shadow-xs">
+                  <ClipboardList className="w-5 h-5" />
+                </div>
+                <p className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white tracking-tight translate-z-30">120,000+</p>
+                <p className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mt-1 translate-z-20">OPD Tokens Dispatched</p>
+                <p className="text-[11px] text-slate-400 mt-2 translate-z-10">Zero double-booking or lost queue spots</p>
               </div>
-              <p className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white tracking-tight">120,000+</p>
-              <p className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mt-1">OPD Tokens Dispatched</p>
-              <p className="text-[11px] text-slate-400 mt-2">Zero double-booking or lost queue spots</p>
-            </div>
+            </Card3D>
 
-            <div className="bg-white dark:bg-slate-900 p-6 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-xs">
-              <div className="w-10 h-10 rounded-2xl bg-emerald-50 dark:bg-emerald-950 text-emerald-600 dark:text-emerald-400 flex items-center justify-center mx-auto mb-3 border border-emerald-200 dark:border-emerald-800">
-                <Sparkles className="w-5 h-5" />
+            <Card3D maxTilt={10} scale={1.03} className="h-full">
+              <div className="bg-white dark:bg-slate-900 p-6 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-xs h-full preserve-3d">
+                <div className="w-10 h-10 rounded-2xl bg-emerald-50 dark:bg-emerald-950 text-emerald-600 dark:text-emerald-400 flex items-center justify-center mx-auto mb-3 border border-emerald-200 dark:border-emerald-800 translate-z-20 shadow-xs">
+                  <Sparkles className="w-5 h-5" />
+                </div>
+                <p className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white tracking-tight translate-z-30">45,000+</p>
+                <p className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mt-1 translate-z-20">Reports AI Explained</p>
+                <p className="text-[11px] text-slate-400 mt-2 translate-z-10">Lipid, CBC, Thyroid, HbA1c &amp; Radiology</p>
               </div>
-              <p className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white tracking-tight">45,000+</p>
-              <p className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mt-1">Reports AI Explained</p>
-              <p className="text-[11px] text-slate-400 mt-2">Lipid, CBC, Thyroid, HbA1c &amp; Radiology</p>
-            </div>
+            </Card3D>
 
-            <div className="bg-white dark:bg-slate-900 p-6 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-xs">
-              <div className="w-10 h-10 rounded-2xl bg-purple-50 dark:bg-purple-950 text-purple-600 dark:text-purple-400 flex items-center justify-center mx-auto mb-3 border border-purple-200 dark:border-purple-800">
-                <Clock className="w-5 h-5" />
+            <Card3D maxTilt={10} scale={1.03} className="h-full">
+              <div className="bg-white dark:bg-slate-900 p-6 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-xs h-full preserve-3d">
+                <div className="w-10 h-10 rounded-2xl bg-purple-50 dark:bg-purple-950 text-purple-600 dark:text-purple-400 flex items-center justify-center mx-auto mb-3 border border-purple-200 dark:border-purple-800 translate-z-20 shadow-xs">
+                  <Clock className="w-5 h-5" />
+                </div>
+                <p className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white tracking-tight translate-z-30">82%</p>
+                <p className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mt-1 translate-z-20">Wait Time Reduction</p>
+                <p className="text-[11px] text-slate-400 mt-2 translate-z-10">Average check-in time: under 60 seconds</p>
               </div>
-              <p className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white tracking-tight">82%</p>
-              <p className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mt-1">Wait Time Reduction</p>
-              <p className="text-[11px] text-slate-400 mt-2">Average check-in time: under 60 seconds</p>
-            </div>
+            </Card3D>
 
-            <div className="bg-white dark:bg-slate-900 p-6 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-xs">
-              <div className="w-10 h-10 rounded-2xl bg-amber-50 dark:bg-amber-950 text-amber-600 dark:text-amber-400 flex items-center justify-center mx-auto mb-3 border border-amber-200 dark:border-amber-800">
-                <ShieldCheck className="w-5 h-5" />
+            <Card3D maxTilt={10} scale={1.03} className="h-full">
+              <div className="bg-white dark:bg-slate-900 p-6 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-xs h-full preserve-3d">
+                <div className="w-10 h-10 rounded-2xl bg-amber-50 dark:bg-amber-950 text-amber-600 dark:text-amber-400 flex items-center justify-center mx-auto mb-3 border border-amber-200 dark:border-amber-800 translate-z-20 shadow-xs">
+                  <ShieldCheck className="w-5 h-5" />
+                </div>
+                <p className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white tracking-tight translate-z-30">100%</p>
+                <p className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mt-1 translate-z-20">Zero PHI Breaches</p>
+                <p className="text-[11px] text-slate-400 mt-2 translate-z-10">Role-quarantined healthcare governance</p>
               </div>
-              <p className="text-3xl sm:text-4xl font-black text-slate-900 dark:text-white tracking-tight">100%</p>
-              <p className="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider mt-1">Zero PHI Breaches</p>
-              <p className="text-[11px] text-slate-400 mt-2">Role-quarantined healthcare governance</p>
-            </div>
+            </Card3D>
           </div>
 
           {/* Compliance Strip */}
@@ -388,76 +396,82 @@ export default function HomePage() {
           <div className="mt-12 grid grid-cols-1 md:grid-cols-3 gap-8">
             
             {/* Testimonial 1 */}
-            <div className="p-6 rounded-3xl bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700 flex flex-col justify-between hover:shadow-md transition-all text-xs">
-              <div>
-                <div className="flex items-center space-x-1 text-amber-400 mb-3">
-                  {[...Array(5)].map((_, i) => (
-                    <Star key={i} className="w-3.5 h-3.5 fill-current" />
-                  ))}
-                </div>
-                <Quote className="w-6 h-6 text-slate-300 dark:text-slate-600 mb-2" />
-                <p className="text-slate-700 dark:text-slate-300 leading-relaxed italic">
-                  &ldquo;MediSync eliminates pre-consultation paperwork entirely. When patient CARD-101 walks into my room, their past blood tests, allergy tags, and AI summaries are right on my screen. I write a SOAP note and digital Rx in under 2 minutes.&rdquo;
-                </p>
-              </div>
-              <div className="mt-6 pt-4 border-t border-slate-200 dark:border-slate-700 flex items-center space-x-3">
-                <div className="w-9 h-9 rounded-full bg-blue-100 dark:bg-blue-950 text-blue-700 dark:text-blue-300 font-bold flex items-center justify-center">
-                  VM
-                </div>
+            <Card3D maxTilt={8} scale={1.02} className="h-full">
+              <div className="p-6 rounded-3xl bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700 flex flex-col justify-between h-full hover:shadow-md transition-all text-xs preserve-3d">
                 <div>
-                  <p className="font-bold text-slate-900 dark:text-white">Dr. Vikram Mehta</p>
-                  <p className="text-[10px] text-slate-500 dark:text-slate-400">Chief of Cardiology, MetroHealth</p>
+                  <div className="flex items-center space-x-1 text-amber-400 mb-3 translate-z-20">
+                    {[...Array(5)].map((_, i) => (
+                      <Star key={i} className="w-3.5 h-3.5 fill-current" />
+                    ))}
+                  </div>
+                  <Quote className="w-6 h-6 text-slate-300 dark:text-slate-600 mb-2 translate-z-10" />
+                  <p className="text-slate-700 dark:text-slate-300 leading-relaxed italic translate-z-20">
+                    &ldquo;MediSync eliminates pre-consultation paperwork entirely. When patient CARD-101 walks into my room, their past blood tests, allergy tags, and AI summaries are right on my screen. I write a SOAP note and digital Rx in under 2 minutes.&rdquo;
+                  </p>
+                </div>
+                <div className="mt-6 pt-4 border-t border-slate-200 dark:border-slate-700 flex items-center space-x-3 translate-z-20">
+                  <div className="w-9 h-9 rounded-full bg-blue-100 dark:bg-blue-950 text-blue-700 dark:text-blue-300 font-bold flex items-center justify-center shadow-xs">
+                    VM
+                  </div>
+                  <div>
+                    <p className="font-bold text-slate-900 dark:text-white">Dr. Vikram Mehta</p>
+                    <p className="text-[10px] text-slate-500 dark:text-slate-400">Chief of Cardiology, MetroHealth</p>
+                  </div>
                 </div>
               </div>
-            </div>
+            </Card3D>
 
             {/* Testimonial 2 */}
-            <div className="p-6 rounded-3xl bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700 flex flex-col justify-between hover:shadow-md transition-all text-xs">
-              <div>
-                <div className="flex items-center space-x-1 text-amber-400 mb-3">
-                  {[...Array(5)].map((_, i) => (
-                    <Star key={i} className="w-3.5 h-3.5 fill-current" />
-                  ))}
-                </div>
-                <Quote className="w-6 h-6 text-slate-300 dark:text-slate-600 mb-2" />
-                <p className="text-slate-700 dark:text-slate-300 leading-relaxed italic">
-                  &ldquo;I used to feel terrified when getting blood test reports because of strange terms like &lsquo;Serum Creatinine&rsquo; or &lsquo;LDL/HDL ratios&rsquo;. MediSync’s AI explainer gave me plain English answers and gave me exact questions to ask my doctor!&rdquo;
-                </p>
-              </div>
-              <div className="mt-6 pt-4 border-t border-slate-200 dark:border-slate-700 flex items-center space-x-3">
-                <div className="w-9 h-9 rounded-full bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300 font-bold flex items-center justify-center">
-                  RS
-                </div>
+            <Card3D maxTilt={8} scale={1.02} className="h-full">
+              <div className="p-6 rounded-3xl bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700 flex flex-col justify-between h-full hover:shadow-md transition-all text-xs preserve-3d">
                 <div>
-                  <p className="font-bold text-slate-900 dark:text-white">Rahul Sharma</p>
-                  <p className="text-[10px] text-slate-500 dark:text-slate-400">Verified Patient &bull; Health ID #9832-RS</p>
+                  <div className="flex items-center space-x-1 text-amber-400 mb-3 translate-z-20">
+                    {[...Array(5)].map((_, i) => (
+                      <Star key={i} className="w-3.5 h-3.5 fill-current" />
+                    ))}
+                  </div>
+                  <Quote className="w-6 h-6 text-slate-300 dark:text-slate-600 mb-2 translate-z-10" />
+                  <p className="text-slate-700 dark:text-slate-300 leading-relaxed italic translate-z-20">
+                    &ldquo;I used to feel terrified when getting blood test reports because of strange terms like &lsquo;Serum Creatinine&rsquo; or &lsquo;LDL/HDL ratios&rsquo;. MediSync’s AI explainer gave me plain English answers and gave me exact questions to ask my doctor!&rdquo;
+                  </p>
+                </div>
+                <div className="mt-6 pt-4 border-t border-slate-200 dark:border-slate-700 flex items-center space-x-3 translate-z-20">
+                  <div className="w-9 h-9 rounded-full bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300 font-bold flex items-center justify-center shadow-xs">
+                    RS
+                  </div>
+                  <div>
+                    <p className="font-bold text-slate-900 dark:text-white">Rahul Sharma</p>
+                    <p className="text-[10px] text-slate-500 dark:text-slate-400">Verified Patient &bull; Health ID #9832-RS</p>
+                  </div>
                 </div>
               </div>
-            </div>
+            </Card3D>
 
             {/* Testimonial 3 */}
-            <div className="p-6 rounded-3xl bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700 flex flex-col justify-between hover:shadow-md transition-all text-xs">
-              <div>
-                <div className="flex items-center space-x-1 text-amber-400 mb-3">
-                  {[...Array(5)].map((_, i) => (
-                    <Star key={i} className="w-3.5 h-3.5 fill-current" />
-                  ))}
-                </div>
-                <Quote className="w-6 h-6 text-slate-300 dark:text-slate-600 mb-2" />
-                <p className="text-slate-700 dark:text-slate-300 leading-relaxed italic">
-                  &ldquo;Morning OPD used to be a riot of angry patients waiting in the hallway. With 60-second walk-in registrations, digital queue buzzers, and one-click receipts, our reception desk is peaceful and completely organized.&rdquo;
-                </p>
-              </div>
-              <div className="mt-6 pt-4 border-t border-slate-200 dark:border-slate-700 flex items-center space-x-3">
-                <div className="w-9 h-9 rounded-full bg-amber-100 dark:bg-amber-950 text-amber-700 dark:text-amber-300 font-bold flex items-center justify-center">
-                  PN
-                </div>
+            <Card3D maxTilt={8} scale={1.02} className="h-full">
+              <div className="p-6 rounded-3xl bg-slate-50 dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700 flex flex-col justify-between h-full hover:shadow-md transition-all text-xs preserve-3d">
                 <div>
-                  <p className="font-bold text-slate-900 dark:text-white">Priya Nair</p>
-                  <p className="text-[10px] text-slate-500 dark:text-slate-400">Head of Reception &amp; Triage</p>
+                  <div className="flex items-center space-x-1 text-amber-400 mb-3 translate-z-20">
+                    {[...Array(5)].map((_, i) => (
+                      <Star key={i} className="w-3.5 h-3.5 fill-current" />
+                    ))}
+                  </div>
+                  <Quote className="w-6 h-6 text-slate-300 dark:text-slate-600 mb-2 translate-z-10" />
+                  <p className="text-slate-700 dark:text-slate-300 leading-relaxed italic translate-z-20">
+                    &ldquo;Morning OPD used to be a riot of angry patients waiting in the hallway. With 60-second walk-in registrations, digital queue buzzers, and one-click receipts, our reception desk is peaceful and completely organized.&rdquo;
+                  </p>
+                </div>
+                <div className="mt-6 pt-4 border-t border-slate-200 dark:border-slate-700 flex items-center space-x-3 translate-z-20">
+                  <div className="w-9 h-9 rounded-full bg-amber-100 dark:bg-amber-950 text-amber-700 dark:text-amber-300 font-bold flex items-center justify-center shadow-xs">
+                    PN
+                  </div>
+                  <div>
+                    <p className="font-bold text-slate-900 dark:text-white">Priya Nair</p>
+                    <p className="text-[10px] text-slate-500 dark:text-slate-400">Head of Reception &amp; Triage</p>
+                  </div>
                 </div>
               </div>
-            </div>
+            </Card3D>
 
           </div>
 
