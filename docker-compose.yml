@@ -1,0 +1,39 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: medisync-backend
+    restart: always
+    ports:
+      - "8000:8000"
+    environment:
+      - HOST=0.0.0.0
+      - PORT=8000
+      - ENVIRONMENT=production
+      - DEBUG=False
+      - CORS_ORIGINS=http://localhost:3000,http://127.0.0.1:3000
+      - MONGODB_URI=mongodb+srv://divyasreelekha777_db_user:zLzBbRGG7w6vCKG3@cluster0.794qvgm.mongodb.net/?retryWrites=true&w=majority
+      - MONGODB_DB_NAME=medisync_db
+    env_file:
+      - ./backend/.env
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: medisync-frontend
+    restart: always
+    ports:
+      - "3000:3000"
+    environment:
+      - PORT=3000
+      - NEXT_PUBLIC_API_URL=http://localhost:8000
+      - NEXT_PUBLIC_APP_NAME=MediSync 360
+      - NEXT_PUBLIC_APP_ENV=production
+    env_file:
+      - ./frontend/.env
+    depends_on:
+      - backend
