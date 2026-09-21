@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation';
 import { useStore } from '@/lib/store';
 import Card3D from '@/components/Card3D';
 import Hero3DVisual from '@/components/Hero3DVisual';
+import SystemComparison from '@/components/SystemComparison';
 import { 
   User, 
   Stethoscope, 
@@ -203,65 +204,8 @@ export default function HomePage() {
             </Card3D>
           </div>
 
-          {/* Old Way vs. MediSync 360 Matrix */}
-          <div className="mt-14 bg-slate-900 text-white rounded-3xl p-8 sm:p-12 shadow-xl border border-slate-800">
-            <div className="max-w-3xl mb-8">
-              <span className="text-xs font-bold uppercase tracking-wider text-teal-400">System Comparison</span>
-              <h3 className="text-2xl sm:text-3xl font-black mt-1">The Paradigm Shift in Clinical Workflow</h3>
-            </div>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 text-xs">
-              <div className="bg-slate-800/80 p-6 rounded-2xl border border-rose-500/30">
-                <p className="text-rose-400 font-bold uppercase tracking-wider mb-3 flex items-center space-x-1.5">
-                  <ShieldAlert className="w-4 h-4" />
-                  <span>The Traditional Healthcare Dilemma</span>
-                </p>
-                <ul className="space-y-3 text-slate-300">
-                  <li className="flex items-start space-x-2">
-                    <span className="text-rose-400 font-bold">✕</span>
-                    <span>Lost paper files and repeated, costly diagnostic tests.</span>
-                  </li>
-                  <li className="flex items-start space-x-2">
-                    <span className="text-rose-400 font-bold">✕</span>
-                    <span>Unintelligible lab jargon causing patient anxiety and confusion.</span>
-                  </li>
-                  <li className="flex items-start space-x-2">
-                    <span className="text-rose-400 font-bold">✕</span>
-                    <span>Uncoordinated lobby wait times exceeding 45–90 minutes.</span>
-                  </li>
-                  <li className="flex items-start space-x-2">
-                    <span className="text-rose-400 font-bold">✕</span>
-                    <span>Administrative staff can view sensitive patient medical notes (PHI leakage).</span>
-                  </li>
-                </ul>
-              </div>
-
-              <div className="bg-slate-800/80 p-6 rounded-2xl border border-emerald-500/30">
-                <p className="text-emerald-400 font-bold uppercase tracking-wider mb-3 flex items-center space-x-1.5">
-                  <CheckCircle2 className="w-4 h-4" />
-                  <span>The MediSync 360 Operating System</span>
-                </p>
-                <ul className="space-y-3 text-slate-200">
-                  <li className="flex items-start space-x-2">
-                    <span className="text-emerald-400 font-bold">✓</span>
-                    <span>Permanent, encrypted digital health locker &amp; timeline.</span>
-                  </li>
-                  <li className="flex items-start space-x-2">
-                    <span className="text-emerald-400 font-bold">✓</span>
-                    <span>Plain-English AI explanation with question suggestions for doctor visits.</span>
-                  </li>
-                  <li className="flex items-start space-x-2">
-                    <span className="text-emerald-400 font-bold">✓</span>
-                    <span>Live digital queue tokens with 60-second walk-in intake.</span>
-                  </li>
-                  <li className="flex items-start space-x-2">
-                    <span className="text-emerald-400 font-bold">✓</span>
-                    <span>Strict role-based isolation: only verified patients &amp; attending doctors access clinical records.</span>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
+          {/* The Paradigm Shift in Clinical Workflow: Interactive System Comparison */}
+          <SystemComparison />
 
         </div>
       </section>

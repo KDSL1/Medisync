@@ -14,7 +14,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="h-full bg-slate-50">
+    <html lang="en" className="h-full bg-slate-50 scroll-smooth">
       <body className="min-h-full flex flex-col font-sans text-slate-900 bg-slate-50">
         <StoreProvider>
           <Navbar />
